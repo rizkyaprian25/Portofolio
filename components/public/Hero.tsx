@@ -72,10 +72,13 @@ export default function Hero({ profile, cvUrl }: { profile: Profile; cvUrl: stri
                   OpenCode
                 </span>
                 <span className="text-xs font-medium px-3 py-1 rounded-full bg-black/[0.04] text-apple-text border border-black/[0.06]">
-                  Next.js 14
+                  Flutter
                 </span>
                 <span className="text-xs font-medium px-3 py-1 rounded-full bg-black/[0.04] text-apple-text border border-black/[0.06]">
                   React Native / Mobile
+                </span>
+                <span className="text-xs font-medium px-3 py-1 rounded-full bg-black/[0.04] text-apple-text border border-black/[0.06]">
+                  Next.js 14
                 </span>
                 <span className="text-xs font-medium px-3 py-1 rounded-full bg-black/[0.04] text-apple-text border border-black/[0.06]">
                   TypeScript

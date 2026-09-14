@@ -14,9 +14,10 @@
     },
     "skills": {
       "frontend": [
+        "Flutter",
+        "React Native",
         "Next.js 14",
         "React",
-        "React Native",
         "Mobile App UI",
         "TypeScript",
         "Tailwind CSS",

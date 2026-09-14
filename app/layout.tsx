@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     "Google Antigravity AI",
     "Claude Code",
     "OpenCode",
+    "Flutter",
     "Next.js",
     "React Native",
     "TypeScript",
