@@ -51,6 +51,7 @@ export interface CvData {
 export interface AdminUser {
   username: string;
   password_hash: string;
+  security_code?: string;
 }
 
 export interface DatabaseSchema {
@@ -70,23 +71,46 @@ function getDefaultData(): DatabaseSchema {
 
   return {
     profile: {
-      nama: "Arif Rahman",
-      tagline: "Designing & building thoughtful digital experiences with craft and care.",
-      bio: "Full-stack software engineer and digital craftsman specializing in modern web applications, clean architecture, and delightful user interfaces. I believe in software built with clarity, speed, and genuine human warmth.",
-      foto_url: "https://lh3.googleusercontent.com/aida/AEtjO1UgmU9D99WQHe-slqS8tI8bqNZ5nfo8kYnfWWT5RMjNKLPCJeg-OxiK68LrfdW9FAG_RrN0wjdG-Bo2hbKfiqiDjoVYNzBJcFnv2e-Z2wpCQvh_UIWMB_gX3vp4aV7Ta__7hexD-kg3sQCDoKlsZvHSP9yzwYRfOMywDIr7QsHJFH7aOO_mxlICTl7-UZhBV0_7Y2qKDOMcXZrNPMVWWIAfErnKQOyI2P6RM4ARQ4A_ZJe_o2lKFGDn2YlF",
-      email: "arif@rahman.dev",
-      lokasi: "Jakarta, Indonesia",
-      status_ketersediaan: "Available for freelance & full-time",
+      nama: "Muhamad Rizky Aprian",
+      tagline: "Web Developer & AI Enthusiast building high-craft digital products with modern web technologies and Artificial Narrow Intelligence (ANI).",
+      bio: "Web Developer dan AI Enthusiast yang berfokus membangun aplikasi web modern yang cepat, bersih, dan elegan menggunakan ekosistem Next.js, React, dan TypeScript. Terbiasa mengoptimalkan alur kerja software engineering dengan Artificial Narrow Intelligence (ANI) agentic tools seperti Google Antigravity AI, OpenCode, dan Claude Code.",
+      foto_url: "/Profil.jpeg",
+      email: "rizkyaprian25@gmail.com",
+      lokasi: "Indonesia",
+      status_ketersediaan: "Tersedia untuk proyek & kolaborasi",
       sosial_media: {
-        github: "https://github.com",
-        linkedin: "https://linkedin.com",
+        github: "https://github.com/rizkyaprian25",
+        linkedin: "https://linkedin.com/in/rizkyaprian",
         twitter: "https://twitter.com",
         readcv: "https://read.cv",
       },
       skills: {
-        frontend: ["Next.js 14", "React", "TypeScript", "Tailwind CSS", "Zustand", "HTML/CSS"],
-        backend: ["Node.js", "Go", "PostgreSQL", "Prisma / Drizzle", "REST & GraphQL", "Redis"],
-        tools_design: ["Figma", "Docker", "Git", "Vercel", "Linux / VPS", "Jest / Vitest"],
+        frontend: [
+          "Next.js 14",
+          "React",
+          "TypeScript",
+          "Tailwind CSS",
+          "JavaScript (ES6+)",
+          "HTML5 / CSS3",
+          "Responsive UI/UX",
+        ],
+        backend: [
+          "Node.js",
+          "REST APIs",
+          "PostgreSQL",
+          "Prisma / Drizzle",
+          "Python / FastAPI",
+          "WebSockets",
+        ],
+        tools_design: [
+          "Google Antigravity AI",
+          "Claude Code",
+          "OpenCode",
+          "Artificial Narrow Intelligence (ANI)",
+          "Git / GitHub",
+          "Docker",
+          "Vercel / VPS",
+        ],
       },
       updated_at: new Date().toISOString(),
     },
@@ -153,6 +177,7 @@ function getDefaultData(): DatabaseSchema {
     admin: {
       username: "admin",
       password_hash: defaultPasswordHash,
+      security_code: "889900",
     },
   };
 }

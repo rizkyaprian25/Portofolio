@@ -1,57 +1,75 @@
 import React from "react";
-import { Code2, Compass, Layers, Sparkles } from "lucide-react";
+import { Code2, Cpu, Layers, Sparkles } from "lucide-react";
 import { Profile } from "@/lib/db";
 
 export default function AboutSkills({ profile }: { profile: Profile }) {
   return (
-    <section id="about" className="py-16 md:py-24 border-t border-canvas-border">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="craft" className="py-20 md:py-28 bg-apple-canvas border-t border-black/[0.06]">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
         
-        {/* Section Header */}
-        <div className="max-w-2xl mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-botanical-600 mb-2">
-            <Compass className="w-3.5 h-3.5" />
-            <span>Philosophy & Background</span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-4xl text-ink font-normal leading-tight">
-            Craftsmanship behind the code
+        {/* Apple Section Eyebrow & Title */}
+        <div className="max-w-3xl mb-14 sm:mb-16">
+          <span className="text-xs uppercase tracking-widest font-semibold text-apple-secondary block mb-2">
+            Engineering &amp; Craftsmanship
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-semibold text-apple-text tracking-tight leading-tight">
+            Presisi web engineering, dipercepat oleh kecerdasan ANI.
           </h2>
+          <p className="text-base sm:text-lg text-apple-secondary mt-3">
+            Filosofi pengembangan perangkat lunak modern yang mengutamakan kecepatan, struktur bersih, dan adopsi alat berbasis agen cerdas.
+          </p>
         </div>
 
-        {/* 2-Column Editorial Card */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        {/* 2-Column Apple Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* Left Column: Bio Narrative */}
-          <div className="lg:col-span-6 space-y-5 text-sm sm:text-base text-ink-secondary leading-relaxed font-sans">
-            <p>
-              I approach software engineering not merely as translating requirements into syntax, but as a deliberate discipline of craftsmanship. Over the past several years, I have worked across the full product spectrum—from architectural system design to pixel-perfect micro-interactions.
-            </p>
-            <p>
-              My design and engineering philosophy is grounded in simplicity: eliminate unnecessary dependencies, keep interfaces intuitive and accessible, and optimize for long-term maintainability. I thrive in the intersection where technical performance meets joyful aesthetics.
-            </p>
-            
-            {/* Quote callout */}
-            <div className="pt-4 border-l-2 border-sun-500 pl-4 my-6">
-              <p className="font-serif italic text-lg sm:text-xl text-ink">
-                &ldquo;Good software feels light, quiet, and effortlessly respectful of the user&rsquo;s time.&rdquo;
+          {/* Left Column: Narrative Card */}
+          <div className="lg:col-span-6 bg-white rounded-[24px] border border-black/[0.06] p-7 sm:p-9 shadow-apple-card space-y-6">
+            <div className="w-10 h-10 rounded-2xl bg-apple-blue/10 text-apple-blue flex items-center justify-center">
+              <Sparkles className="w-5 h-5" />
+            </div>
+
+            <h3 className="text-xl font-semibold text-apple-text tracking-tight">
+              Sinergi Web &amp; Mobile Developer dengan Agentic ANI
+            </h3>
+
+            <div className="space-y-4 text-sm sm:text-base text-apple-secondary leading-relaxed">
+              <p>
+                Sebagai Web &amp; Mobile Developer dan AI Enthusiast, saya memadukan arsitektur web modern serta ekosistem mobile dengan akselerasi agen cerdas Artificial Narrow Intelligence (ANI) seperti Google Antigravity AI, Claude Code, dan OpenCode.
+              </p>
+              <p>
+                Pendekatan ini memungkinkan saya merekayasa produk digital dari konsep menjadi aplikasi web dan mobile siap pakai dengan kecepatan tinggi tanpa mengorbankan kualitas kode, ketelitian UI/UX, performa, maupun ketahanan sistem.
+              </p>
+            </div>
+
+            <div className="pt-4 border-t border-black/[0.06]">
+              <p className="text-xs uppercase tracking-wider font-semibold text-apple-secondary">
+                Pilar Utama
+              </p>
+              <p className="text-sm font-medium text-apple-text mt-1">
+                Web &amp; Mobile Apps · ANI Agentic Workflows · Clean Scalable Architecture
               </p>
             </div>
           </div>
 
-          {/* Right Column: Skills Matrix */}
-          <div className="lg:col-span-6 bg-canvas-card border border-canvas-border rounded-2xl p-6 sm:p-8 shadow-sunlit space-y-6">
+          {/* Right Column: Apple Category Cards */}
+          <div className="lg:col-span-6 space-y-4">
             
-            {/* Frontend Skills */}
-            <div>
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-ink mb-3">
-                <Code2 className="w-4 h-4 text-sun-500" />
-                <span>Frontend Architecture</span>
+            {/* Frontend & Mobile Capsule */}
+            <div className="bg-white rounded-[20px] border border-black/[0.06] p-6 shadow-apple-card">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-8 h-8 rounded-xl bg-apple-blue text-white flex items-center justify-center">
+                  <Code2 className="w-4 h-4" />
+                </div>
+                <h4 className="text-sm font-semibold text-apple-text tracking-tight">
+                  Web &amp; Mobile Development (UI/UX)
+                </h4>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {profile.skills.frontend.map((skill) => (
                   <span
                     key={skill}
-                    className="text-xs font-medium px-3 py-1 rounded-full bg-sun-50 text-amber-900 border border-sun-200"
+                    className="text-xs font-medium px-3 py-1 rounded-full bg-apple-canvas text-apple-text border border-black/[0.04]"
                   >
                     {skill}
                   </span>
@@ -59,17 +77,21 @@ export default function AboutSkills({ profile }: { profile: Profile }) {
               </div>
             </div>
 
-            {/* Backend Skills */}
-            <div className="pt-4 border-t border-canvas-border">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-ink mb-3">
-                <Layers className="w-4 h-4 text-botanical-500" />
-                <span>Backend & Distributed Systems</span>
+            {/* Backend Capsule */}
+            <div className="bg-white rounded-[20px] border border-black/[0.06] p-6 shadow-apple-card">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-8 h-8 rounded-xl bg-apple-green text-white flex items-center justify-center">
+                  <Layers className="w-4 h-4" />
+                </div>
+                <h4 className="text-sm font-semibold text-apple-text tracking-tight">
+                  Backend &amp; API Infrastructure
+                </h4>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {profile.skills.backend.map((skill) => (
                   <span
                     key={skill}
-                    className="text-xs font-medium px-3 py-1 rounded-full bg-botanical-50 text-emerald-900 border border-botanical-200"
+                    className="text-xs font-medium px-3 py-1 rounded-full bg-apple-canvas text-apple-text border border-black/[0.04]"
                   >
                     {skill}
                   </span>
@@ -77,17 +99,21 @@ export default function AboutSkills({ profile }: { profile: Profile }) {
               </div>
             </div>
 
-            {/* Tools & Design */}
-            <div className="pt-4 border-t border-canvas-border">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-ink mb-3">
-                <Sparkles className="w-4 h-4 text-sky-500" />
-                <span>Tooling, Cloud & Design</span>
+            {/* Tooling & ANI AI Tools Capsule */}
+            <div className="bg-white rounded-[20px] border border-black/[0.06] p-6 shadow-apple-card">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-8 h-8 rounded-xl bg-apple-purple text-white flex items-center justify-center">
+                  <Cpu className="w-4 h-4" />
+                </div>
+                <h4 className="text-sm font-semibold text-apple-text tracking-tight">
+                  ANI AI Tools &amp; Dev Environment
+                </h4>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {profile.skills.tools_design.map((skill) => (
                   <span
                     key={skill}
-                    className="text-xs font-medium px-3 py-1 rounded-full bg-sky-50 text-sky-900 border border-sky-200"
+                    className="text-xs font-medium px-3 py-1 rounded-full bg-apple-canvas text-apple-text border border-black/[0.04]"
                   >
                     {skill}
                   </span>

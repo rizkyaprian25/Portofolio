@@ -2,13 +2,27 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Arif Rahman — Portfolio & Personal Space",
-  description: "Personal portfolio, selected projects, architectural case studies, and engineering philosophy.",
-  keywords: ["Software Engineer", "Full-stack Developer", "Portfolio", "Web Development", "Next.js", "React"],
-  authors: [{ name: "Arif Rahman" }],
+  title: "Muhamad Rizky Aprian — Web & Mobile Developer, AI Enthusiast",
+  description: "Portofolio profesional Muhamad Rizky Aprian. Web & Mobile Developer serta AI Enthusiast berfokus pada arsitektur web modern (Next.js, TypeScript), aplikasi mobile, dan adopsi Artificial Narrow Intelligence (ANI) agentic tools.",
+  keywords: [
+    "Muhamad Rizky Aprian",
+    "Web Developer",
+    "Mobile Developer",
+    "AI Enthusiast",
+    "Artificial Narrow Intelligence",
+    "ANI",
+    "Google Antigravity AI",
+    "Claude Code",
+    "OpenCode",
+    "Next.js",
+    "React Native",
+    "TypeScript",
+    "Portofolio",
+  ],
+  authors: [{ name: "Muhamad Rizky Aprian" }],
   openGraph: {
-    title: "Arif Rahman — Portfolio & Personal Space",
-    description: "Designing & building thoughtful digital experiences with craft and care.",
+    title: "Muhamad Rizky Aprian — Web & Mobile Developer, AI Enthusiast",
+    description: "Portofolio profesional Muhamad Rizky Aprian. Web & Mobile Developer serta AI Enthusiast berfokus pada arsitektur web modern, aplikasi mobile, dan adopsi Artificial Narrow Intelligence (ANI) agentic tools.",
     type: "website",
   },
 };

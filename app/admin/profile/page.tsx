@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { getProfile } from "@/lib/db";
+import AdminDashboardShell from "@/components/admin/AdminDashboardShell";
 import ProfileEditor from "@/components/admin/ProfileEditor";
 
 export const dynamic = "force-dynamic";
@@ -14,5 +15,9 @@ export default async function AdminProfilePage() {
 
   const profile = getProfile();
 
-  return <ProfileEditor initialProfile={profile} />;
+  return (
+    <AdminDashboardShell username={session.username}>
+      <ProfileEditor initialProfile={profile} />
+    </AdminDashboardShell>
+  );
 }

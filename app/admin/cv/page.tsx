@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { getCv } from "@/lib/db";
+import AdminDashboardShell from "@/components/admin/AdminDashboardShell";
 import CvManager from "@/components/admin/CvManager";
 
 export const dynamic = "force-dynamic";
@@ -14,5 +15,9 @@ export default async function AdminCvPage() {
 
   const cv = getCv();
 
-  return <CvManager initialCv={cv} />;
+  return (
+    <AdminDashboardShell username={session.username}>
+      <CvManager initialCv={cv} />
+    </AdminDashboardShell>
+  );
 }

@@ -5,15 +5,11 @@ import Image from "next/image";
 import {
   Check,
   ExternalLink,
-  Eye,
-  FileText,
   FolderPlus,
   Github,
-  Layers,
   Pencil,
   Plus,
   Search,
-  Sparkles,
   Trash2,
   UploadCloud,
   X,
@@ -89,7 +85,6 @@ export default function PortfolioManager({
     setIsDrawerOpen(true);
   };
 
-  // Auto-generate slug from title if creating
   const handleTitleChange = (val: string) => {
     setFormJudul(val);
     if (!editingProject) {
@@ -131,12 +126,12 @@ export default function PortfolioManager({
       const data = await res.json();
       if (res.ok && data.url) {
         setFormGambar([data.url, ...formGambar]);
-        showToast("Gambar berhasil diunggah");
+        showToast("Image uploaded");
       } else {
-        setFormError(data.error || "Gagal upload gambar");
+        setFormError(data.error || "Upload failed");
       }
     } catch {
-      setFormError("Gagal upload gambar");
+      setFormError("Upload failed");
     } finally {
       setIsUploading(false);
     }
@@ -158,33 +153,33 @@ export default function PortfolioManager({
         setProjects(
           projects.map((p) => (p.id === project.id ? { ...p, featured: newStatus } : p))
         );
-        showToast(`Status featured diperbarui`);
+        showToast(`Featured state updated`);
       }
     } catch {
-      alert("Gagal memperbarui status");
+      alert("Failed to update status");
     }
   };
 
   const handleDelete = async (id: string, judul: string) => {
-    if (!confirm(`Hapus proyek "${judul}" secara permanen?`)) return;
+    if (!confirm(`Delete project "${judul}" permanently?`)) return;
 
     try {
       const res = await fetch(`/api/portfolio/${id}`, { method: "DELETE" });
       if (res.ok) {
         setProjects(projects.filter((p) => p.id !== id));
-        showToast("Proyek berhasil dihapus");
+        showToast("Project removed");
       } else {
-        alert("Gagal menghapus proyek");
+        alert("Failed to remove project");
       }
     } catch {
-      alert("Terjadi kesalahan jaringan");
+      alert("Network error occurred");
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formJudul.trim() || !formSlug.trim()) {
-      setFormError("Judul dan slug wajib diisi");
+      setFormError("Title and slug are required");
       return;
     }
 
@@ -206,7 +201,6 @@ export default function PortfolioManager({
 
     try {
       if (editingProject) {
-        // UPDATE
         const res = await fetch(`/api/portfolio/${editingProject.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -216,12 +210,11 @@ export default function PortfolioManager({
         if (res.ok) {
           setProjects(projects.map((p) => (p.id === editingProject.id ? updated : p)));
           setIsDrawerOpen(false);
-          showToast("Perubahan proyek berhasil disimpan");
+          showToast("Project changes saved");
         } else {
-          setFormError(updated.error || "Gagal menyimpan perubahan");
+          setFormError(updated.error || "Failed to save changes");
         }
       } else {
-        // CREATE
         const res = await fetch("/api/portfolio", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -231,19 +224,18 @@ export default function PortfolioManager({
         if (res.ok) {
           setProjects([...projects, created]);
           setIsDrawerOpen(false);
-          showToast("Proyek baru berhasil ditambahkan");
+          showToast("New project published");
         } else {
-          setFormError(created.error || "Gagal membuat proyek");
+          setFormError(created.error || "Failed to create project");
         }
       }
     } catch {
-      setFormError("Terjadi kesalahan koneksi server");
+      setFormError("Server connection error");
     } finally {
       setIsSaving(false);
     }
   };
 
-  // Filtered list
   const filteredProjects = projects.filter((p) => {
     const matchesSearch =
       p.judul.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -255,211 +247,190 @@ export default function PortfolioManager({
   const featuredCount = projects.filter((p) => p.featured).length;
 
   return (
-    <div className="p-6 sm:p-10 space-y-8">
+    <div className="p-6 sm:p-10 space-y-8 bg-apple-canvas min-h-screen">
       {/* Toast Notification */}
       {successToast && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-xl bg-ink text-canvas-card text-xs font-semibold shadow-sunlit-lg animate-fadeIn">
-          <Check className="w-4 h-4 text-botanical-500" />
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full bg-apple-text text-white text-xs font-medium shadow-apple-float animate-fadeIn">
+          <Check className="w-4 h-4 text-apple-green" />
           <span>{successToast}</span>
         </div>
       )}
 
-      {/* Top Bar / Breadcrumb & Actions */}
+      {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="text-xs font-medium text-ink-muted flex items-center gap-2 mb-1">
-            <span>Admin</span>
+          <div className="text-xs text-apple-secondary flex items-center gap-1.5 mb-1 font-medium">
+            <span>Workspace</span>
             <span>/</span>
-            <span>Portfolio</span>
+            <span>Projects</span>
             <span>/</span>
-            <span className="text-ink font-semibold">Management</span>
+            <span className="text-apple-text">Overview</span>
           </div>
-          <h1 className="font-serif text-2xl sm:text-3xl text-ink font-normal">
-            Manage Portfolio Projects
+          <h1 className="text-2xl sm:text-3xl font-semibold text-apple-text tracking-tight">
+            Portfolio Management
           </h1>
         </div>
 
         <button
           onClick={openCreateModal}
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-sun-500 hover:bg-sun-600 text-ink font-semibold text-xs transition shadow-sm hover:shadow active:scale-95 shrink-0"
+          className="inline-flex items-center justify-center gap-1.5 px-5 py-2 rounded-full bg-apple-blue hover:bg-apple-blue-hover text-white font-medium text-xs transition shadow-sm active:scale-95 shrink-0"
         >
-          <Plus className="w-4 h-4" />
-          <span>+ Add New Project</span>
+          <Plus className="w-3.5 h-3.5" />
+          <span>New Project</span>
         </button>
       </div>
 
       {/* 3 Metric Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        {/* Card 1 */}
-        <div className="bg-canvas-card border border-canvas-border rounded-2xl p-5 shadow-sunlit space-y-2">
+        <div className="bg-white border border-black/[0.06] rounded-[20px] p-5 shadow-apple-card space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-ink-muted uppercase tracking-wider">
+            <span className="text-xs font-medium text-apple-secondary">
               Total Projects
             </span>
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-botanical-50 text-botanical-700 border border-botanical-100">
-              Live Index
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-apple-blue/10 text-apple-blue">
+              Index
             </span>
           </div>
-          <div className="text-3xl font-serif text-ink">{projects.length}</div>
-          <p className="text-xs text-ink-secondary">Karya terpublikasi di website</p>
+          <div className="text-3xl font-semibold text-apple-text tracking-tight">{projects.length}</div>
+          <p className="text-xs text-apple-secondary">Published to live gallery</p>
         </div>
 
-        {/* Card 2 */}
-        <div className="bg-canvas-card border border-canvas-border rounded-2xl p-5 shadow-sunlit space-y-2">
+        <div className="bg-white border border-black/[0.06] rounded-[20px] p-5 shadow-apple-card space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-ink-muted uppercase tracking-wider">
+            <span className="text-xs font-medium text-apple-secondary">
               Featured Slots
             </span>
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sun-50 text-sun-700 border border-sun-100">
-              Homepage
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-apple-green/10 text-apple-green">
+              Active
             </span>
           </div>
-          <div className="text-3xl font-serif text-ink">
-            {featuredCount} <span className="text-base text-ink-muted font-sans">/ 6 max</span>
+          <div className="text-3xl font-semibold text-apple-text tracking-tight">
+            {featuredCount} <span className="text-base text-apple-secondary font-normal">/ 6 max</span>
           </div>
-          <p className="text-xs text-ink-secondary">Karya unggulan di halaman depan</p>
+          <p className="text-xs text-apple-secondary">Showcased on main page</p>
         </div>
 
-        {/* Card 3 */}
-        <div className="bg-canvas-card border border-canvas-border rounded-2xl p-5 shadow-sunlit space-y-2">
+        <div className="bg-white border border-black/[0.06] rounded-[20px] p-5 shadow-apple-card space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-ink-muted uppercase tracking-wider">
-              CV Manifest
+            <span className="text-xs font-medium text-apple-secondary">
+              Resume Status
             </span>
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-100">
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-apple-purple/10 text-apple-purple">
               {cvData.versi}
             </span>
           </div>
-          <div className="text-base font-semibold text-ink truncate">{cvData.filename}</div>
-          <p className="text-xs text-ink-muted flex items-center justify-between">
+          <div className="text-sm font-semibold text-apple-text truncate">{cvData.filename}</div>
+          <p className="text-xs text-apple-secondary flex items-center justify-between">
             <span>Size: {cvData.file_size}</span>
-            <a href={cvData.file_url} target="_blank" className="text-sky-600 hover:underline">
-              Preview CV ↗
+            <a href={cvData.file_url} target="_blank" className="text-apple-blue hover:underline font-medium">
+              View PDF ↗
             </a>
           </p>
         </div>
       </div>
 
-      {/* Main Content Area / Data Table */}
-      <div className="bg-canvas-card border border-canvas-border rounded-2xl shadow-sunlit overflow-hidden">
-        {/* Table Filters & Search Bar */}
-        <div className="p-4 sm:p-6 border-b border-canvas-border flex flex-col sm:flex-row items-center justify-between gap-4">
-          {/* Tabs */}
-          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-canvas-subtle border border-canvas-border self-stretch sm:self-auto text-xs font-semibold">
+      {/* Main Data Table */}
+      <div className="bg-white border border-black/[0.06] rounded-[20px] shadow-apple-card overflow-hidden">
+        {/* Table Filters & Search */}
+        <div className="p-4 sm:p-5 border-b border-black/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-1 p-1 rounded-xl bg-apple-canvas border border-black/[0.04] self-stretch sm:self-auto text-xs font-medium">
             <button
               onClick={() => setFilterFeatured("ALL")}
-              className={`px-3.5 py-1.5 rounded-lg transition ${
+              className={`px-3 py-1.5 rounded-lg transition ${
                 filterFeatured === "ALL"
-                  ? "bg-canvas-card text-ink shadow-sm"
-                  : "text-ink-muted hover:text-ink"
+                  ? "bg-white text-apple-text shadow-sm"
+                  : "text-apple-secondary hover:text-apple-text"
               }`}
             >
-              Semua ({projects.length})
+              All ({projects.length})
             </button>
             <button
               onClick={() => setFilterFeatured("FEATURED")}
-              className={`px-3.5 py-1.5 rounded-lg transition ${
+              className={`px-3 py-1.5 rounded-lg transition ${
                 filterFeatured === "FEATURED"
-                  ? "bg-canvas-card text-ink shadow-sm"
-                  : "text-ink-muted hover:text-ink"
+                  ? "bg-white text-apple-text shadow-sm"
+                  : "text-apple-secondary hover:text-apple-text"
               }`}
             >
               Featured ({featuredCount})
             </button>
           </div>
 
-          {/* Search Input */}
           <div className="relative w-full sm:w-64">
-            <Search className="w-4 h-4 text-ink-muted absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-3.5 h-3.5 text-apple-secondary absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari judul atau teknologi..."
-              className="w-full pl-10 pr-4 py-2 rounded-xl bg-canvas border border-canvas-border text-xs text-ink placeholder:text-ink-muted focus:outline-none focus:border-sun-500"
+              placeholder="Search projects..."
+              className="w-full pl-9 pr-4 py-1.5 rounded-xl bg-apple-canvas border border-black/[0.06] text-xs text-apple-text placeholder:text-apple-secondary focus:outline-none focus:border-apple-blue"
             />
           </div>
         </div>
 
-        {/* Table */}
+        {/* Table List */}
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-canvas-subtle/60 text-ink-muted uppercase tracking-wider font-semibold border-b border-canvas-border">
+            <thead className="bg-apple-canvas/50 text-apple-secondary uppercase tracking-wider font-semibold border-b border-black/[0.06]">
               <tr>
-                <th className="py-3.5 px-4 sm:px-6">Preview</th>
-                <th className="py-3.5 px-4 sm:px-6">Judul & Slug</th>
-                <th className="py-3.5 px-4 sm:px-6">Teknologi</th>
-                <th className="py-3.5 px-4 sm:px-6 text-center">Featured</th>
-                <th className="py-3.5 px-4 sm:px-6 text-center">Urutan</th>
-                <th className="py-3.5 px-4 sm:px-6 text-right">Aksi</th>
+                <th className="py-3 px-4 sm:px-6">Preview</th>
+                <th className="py-3 px-4 sm:px-6">Title &amp; Slug</th>
+                <th className="py-3 px-4 sm:px-6">Stack</th>
+                <th className="py-3 px-4 sm:px-6 text-center">Featured</th>
+                <th className="py-3 px-4 sm:px-6 text-center">Order</th>
+                <th className="py-3 px-4 sm:px-6 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-canvas-border font-sans">
+            <tbody className="divide-y divide-black/[0.04]">
               {filteredProjects.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-12 text-center text-ink-muted">
-                    Tidak ada proyek yang sesuai dengan kriteria pencarian.
+                  <td colSpan={6} className="py-12 text-center text-apple-secondary">
+                    No matching projects found.
                   </td>
                 </tr>
               ) : (
                 filteredProjects.map((project) => (
-                  <tr
-                    key={project.id}
-                    className="hover:bg-canvas-subtle/50 transition-colors group"
-                  >
-                    {/* Thumbnail */}
-                    <td className="py-3.5 px-4 sm:px-6">
-                      <div className="relative w-16 h-11 rounded-lg overflow-hidden bg-canvas-subtle border border-canvas-border shrink-0">
+                  <tr key={project.id} className="hover:bg-apple-canvas/60 transition-colors">
+                    <td className="py-3 px-4 sm:px-6">
+                      <div className="relative w-14 h-9 rounded-lg overflow-hidden bg-black/5 border border-black/[0.04] shrink-0">
                         {project.gambar && project.gambar[0] ? (
-                          <Image
-                            src={project.gambar[0]}
-                            alt={project.judul}
-                            fill
-                            className="object-cover"
-                          />
+                          <Image src={project.gambar[0]} alt={project.judul} fill className="object-cover" />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-[10px] text-ink-muted">
+                          <div className="w-full h-full flex items-center justify-center text-[10px] text-apple-secondary">
                             None
                           </div>
                         )}
                       </div>
                     </td>
 
-                    {/* Judul & Slug */}
-                    <td className="py-3.5 px-4 sm:px-6 max-w-xs">
-                      <div className="font-semibold text-ink text-sm truncate">
+                    <td className="py-3 px-4 sm:px-6 max-w-xs">
+                      <div className="font-semibold text-apple-text text-sm truncate">
                         {project.judul}
                       </div>
-                      <div className="text-[11px] font-mono text-ink-muted truncate">
+                      <div className="text-[11px] font-mono text-apple-secondary truncate">
                         /{project.slug}
                       </div>
                     </td>
 
-                    {/* Teknologi Tags */}
-                    <td className="py-3.5 px-4 sm:px-6">
+                    <td className="py-3 px-4 sm:px-6">
                       <div className="flex flex-wrap gap-1 max-w-xs">
                         {project.teknologi.slice(0, 3).map((t) => (
                           <span
                             key={t}
-                            className="text-[10px] font-medium px-2 py-0.5 rounded bg-sun-50 text-amber-900 border border-sun-100"
+                            className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-apple-canvas border border-black/[0.06] text-apple-text"
                           >
                             {t}
                           </span>
                         ))}
-                        {project.teknologi.length > 3 && (
-                          <span className="text-[10px] text-ink-muted px-1">
-                            +{project.teknologi.length - 3}
-                          </span>
-                        )}
                       </div>
                     </td>
 
-                    {/* Featured Toggle */}
-                    <td className="py-3.5 px-4 sm:px-6 text-center">
+                    {/* iOS Green Toggle Switch */}
+                    <td className="py-3 px-4 sm:px-6 text-center">
                       <button
                         onClick={() => handleToggleFeatured(project)}
                         className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                          project.featured ? "bg-sun-500" : "bg-canvas-border"
+                          project.featured ? "bg-apple-green" : "bg-black/20"
                         }`}
                         title="Toggle Featured"
                       >
@@ -471,27 +442,25 @@ export default function PortfolioManager({
                       </button>
                     </td>
 
-                    {/* Urutan */}
-                    <td className="py-3.5 px-4 sm:px-6 text-center font-mono text-ink-muted font-medium">
+                    <td className="py-3 px-4 sm:px-6 text-center font-mono text-apple-secondary font-medium">
                       #{project.urutan}
                     </td>
 
-                    {/* Aksi */}
-                    <td className="py-3.5 px-4 sm:px-6 text-right">
+                    <td className="py-3 px-4 sm:px-6 text-right">
                       <div className="inline-flex items-center gap-1">
                         <button
                           onClick={() => openEditModal(project)}
-                          className="p-1.5 rounded-lg text-ink-muted hover:text-ink hover:bg-canvas-subtle transition"
-                          title="Edit Proyek"
+                          className="p-1.5 rounded-lg text-apple-secondary hover:text-apple-blue hover:bg-apple-canvas transition"
+                          title="Edit"
                         >
-                          <Pencil className="w-4 h-4" />
+                          <Pencil className="w-3.5 h-3.5" />
                         </button>
                         <button
                           onClick={() => handleDelete(project.id, project.judul)}
-                          className="p-1.5 rounded-lg text-ink-muted hover:text-red-600 hover:bg-red-50 transition"
-                          title="Hapus Proyek"
+                          className="p-1.5 rounded-lg text-apple-secondary hover:text-red-600 hover:bg-red-50 transition"
+                          title="Delete"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </td>
@@ -503,128 +472,118 @@ export default function PortfolioManager({
         </div>
       </div>
 
-      {/* Slide-over Drawer / Modal Edit Project */}
+      {/* Apple Style Slide-Over Drawer Sheet */}
       {isDrawerOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-ink/40 backdrop-blur-sm animate-fadeIn">
-          <div className="relative w-full max-w-xl h-full bg-canvas-card border-l border-canvas-border shadow-sunlit-lg flex flex-col justify-between overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex justify-end bg-black/30 backdrop-blur-sm animate-fadeIn">
+          <div className="relative w-full max-w-xl h-full bg-white border-l border-black/[0.08] shadow-apple-float flex flex-col justify-between overflow-y-auto">
             
-            {/* Drawer Header */}
-            <div className="p-6 border-b border-canvas-border flex items-center justify-between sticky top-0 bg-canvas-card z-10">
+            {/* Header */}
+            <div className="p-6 border-b border-black/[0.06] flex items-center justify-between sticky top-0 bg-white/90 apple-glass z-10">
               <div>
-                <h2 className="font-serif text-xl text-ink">
-                  {editingProject ? "Edit Project" : "Add New Project"}
+                <h2 className="text-lg font-semibold text-apple-text tracking-tight">
+                  {editingProject ? "Edit Project" : "New Project"}
                 </h2>
-                <p className="text-xs text-ink-muted">
-                  {editingProject ? `Editing: ${editingProject.slug}` : "Lengkapi rincian portofolio"}
+                <p className="text-xs text-apple-secondary">
+                  {editingProject ? `Path: /${editingProject.slug}` : "Configure project metadata"}
                 </p>
               </div>
               <button
                 onClick={() => setIsDrawerOpen(false)}
-                className="p-2 rounded-lg text-ink-muted hover:text-ink hover:bg-canvas-subtle transition"
+                className="p-2 rounded-full bg-apple-canvas text-apple-secondary hover:text-apple-text transition"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Drawer Form Body */}
+            {/* Form */}
             <form onSubmit={handleSubmit} className="p-6 space-y-5 flex-1">
               {formError && (
-                <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-medium">
+                <div className="p-3 rounded-xl bg-red-50 text-red-700 text-xs font-medium border border-red-200">
                   {formError}
                 </div>
               )}
 
-              {/* Title & Slug */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-ink-secondary mb-1">
-                    Judul Proyek *
+                  <label className="block text-xs font-medium text-apple-secondary mb-1">
+                    Project Title *
                   </label>
                   <input
                     type="text"
                     value={formJudul}
                     onChange={(e) => handleTitleChange(e.target.value)}
-                    placeholder="Contoh: Aura Writing Platform"
                     required
-                    className="w-full px-3 py-2 rounded-xl bg-canvas border border-canvas-border text-xs text-ink focus:outline-none focus:border-sun-500"
+                    className="w-full px-3 py-2 rounded-xl bg-apple-canvas border border-black/[0.06] text-xs text-apple-text focus:outline-none focus:border-apple-blue"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-ink-secondary mb-1">
-                    Slug URL *
+                  <label className="block text-xs font-medium text-apple-secondary mb-1">
+                    Slug Identifier *
                   </label>
                   <input
                     type="text"
                     value={formSlug}
                     onChange={(e) => setFormSlug(e.target.value)}
-                    placeholder="aura-writing-platform"
                     required
-                    className="w-full px-3 py-2 rounded-xl bg-canvas border border-canvas-border text-xs font-mono text-ink focus:outline-none focus:border-sun-500"
+                    className="w-full px-3 py-2 rounded-xl bg-apple-canvas border border-black/[0.06] text-xs font-mono text-apple-text focus:outline-none focus:border-apple-blue"
                   />
                 </div>
               </div>
 
-              {/* Deskripsi Singkat */}
               <div>
-                <label className="block text-xs font-semibold text-ink-secondary mb-1">
-                  Deskripsi Singkat (Tampil di kartu)
+                <label className="block text-xs font-medium text-apple-secondary mb-1">
+                  Card Synopsis (Short description)
                 </label>
                 <textarea
                   rows={2}
                   value={formDeskripsiSingkat}
                   onChange={(e) => setFormDeskripsiSingkat(e.target.value)}
-                  placeholder="Ringkasan 1-2 kalimat mengenai tujuan proyek..."
-                  className="w-full px-3 py-2 rounded-xl bg-canvas border border-canvas-border text-xs text-ink focus:outline-none focus:border-sun-500"
+                  className="w-full px-3 py-2 rounded-xl bg-apple-canvas border border-black/[0.06] text-xs text-apple-text focus:outline-none focus:border-apple-blue"
                 />
               </div>
 
-              {/* Deskripsi Lengkap (Markdown) */}
               <div>
-                <label className="block text-xs font-semibold text-ink-secondary mb-1">
-                  Deskripsi Lengkap / Spesifikasi Arsitektur
+                <label className="block text-xs font-medium text-apple-secondary mb-1">
+                  Full Technical Architecture (Markdown)
                 </label>
                 <textarea
                   rows={4}
                   value={formDeskripsiLengkap}
                   onChange={(e) => setFormDeskripsiLengkap(e.target.value)}
-                  placeholder="Ceritakan proses pembuatan, arsitektur, tantangan teknik..."
-                  className="w-full px-3 py-2 rounded-xl bg-canvas border border-canvas-border text-xs text-ink focus:outline-none focus:border-sun-500"
+                  className="w-full px-3 py-2 rounded-xl bg-apple-canvas border border-black/[0.06] text-xs text-apple-text focus:outline-none focus:border-apple-blue"
                 />
               </div>
 
-              {/* Gambar / Mockup Dropzone */}
+              {/* Image upload */}
               <div>
-                <label className="block text-xs font-semibold text-ink-secondary mb-1">
-                  Gambar Mockup / Screenshot
+                <label className="block text-xs font-medium text-apple-secondary mb-1">
+                  Mockup Preview Image
                 </label>
                 <div className="space-y-3">
-                  {/* Current images preview */}
                   <div className="flex flex-wrap gap-2">
                     {formGambar.map((imgUrl, i) => (
                       <div
                         key={i}
-                        className="relative w-24 h-16 rounded-lg overflow-hidden border border-canvas-border group shrink-0"
+                        className="relative w-24 h-16 rounded-xl overflow-hidden border border-black/[0.06] group shrink-0"
                       >
                         <Image src={imgUrl} alt="Thumbnail" fill className="object-cover" />
                         <button
                           type="button"
                           onClick={() => handleRemoveImage(imgUrl)}
-                          className="absolute top-1 right-1 bg-ink/70 text-white rounded p-0.5 opacity-0 group-hover:opacity-100 transition"
+                          className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
                         >
-                          <X className="w-3 h-3" />
+                          <X className="w-2.5 h-2.5" />
                         </button>
                       </div>
                     ))}
                   </div>
 
-                  {/* Upload button or URL input */}
-                  <div className="border border-dashed border-canvas-border rounded-xl p-4 text-center hover:bg-canvas-subtle transition">
+                  <div className="border border-dashed border-black/[0.1] rounded-2xl p-4 text-center hover:bg-apple-canvas transition">
                     <label className="cursor-pointer block space-y-1">
-                      <UploadCloud className="w-6 h-6 text-sun-600 mx-auto" />
-                      <span className="text-xs font-medium text-ink block">
-                        {isUploading ? "Mengunggah..." : "Klik untuk upload gambar baru (Maks 3MB)"}
+                      <UploadCloud className="w-5 h-5 text-apple-blue mx-auto" />
+                      <span className="text-xs font-medium text-apple-text block">
+                        {isUploading ? "Uploading..." : "Click to select screenshot (Max 3MB)"}
                       </span>
-                      <span className="text-[10px] text-ink-muted block">JPG, PNG, atau WebP</span>
                       <input
                         type="file"
                         accept="image/*"
@@ -637,22 +596,22 @@ export default function PortfolioManager({
                 </div>
               </div>
 
-              {/* Teknologi Pills */}
+              {/* Technologies */}
               <div>
-                <label className="block text-xs font-semibold text-ink-secondary mb-1">
-                  Teknologi Stack
+                <label className="block text-xs font-medium text-apple-secondary mb-1">
+                  Tech Stack Pills
                 </label>
                 <div className="flex flex-wrap gap-1.5 mb-2">
                   {formTeknologi.map((tech) => (
                     <span
                       key={tech}
-                      className="inline-flex items-center gap-1 text-xs px-2.5 py-0.5 rounded-md bg-sun-50 text-amber-900 border border-sun-200"
+                      className="inline-flex items-center gap-1 text-xs px-3 py-0.5 rounded-full bg-apple-canvas border border-black/[0.06] text-apple-text"
                     >
                       <span>{tech}</span>
                       <button
                         type="button"
                         onClick={() => handleRemoveTech(tech)}
-                        className="hover:text-red-600"
+                        className="text-apple-secondary hover:text-red-500"
                       >
                         <X className="w-3 h-3" />
                       </button>
@@ -665,90 +624,84 @@ export default function PortfolioManager({
                     value={techInput}
                     onChange={(e) => setTechInput(e.target.value)}
                     onKeyDown={handleAddTech}
-                    placeholder="Ketik teknologi (misal: Docker, Go) lalu tekan Enter"
-                    className="flex-1 px-3 py-1.5 rounded-xl bg-canvas border border-canvas-border text-xs text-ink focus:outline-none focus:border-sun-500"
+                    placeholder="Type technology (e.g. Swift, Go) & press Enter"
+                    className="flex-1 px-3 py-1.5 rounded-xl bg-apple-canvas border border-black/[0.06] text-xs text-apple-text focus:outline-none focus:border-apple-blue"
                   />
                   <button
                     type="button"
                     onClick={handleAddTech}
-                    className="px-3 py-1.5 rounded-xl bg-canvas-card border border-canvas-border text-xs font-semibold hover:bg-canvas-subtle"
+                    className="px-3.5 py-1.5 rounded-xl bg-apple-canvas border border-black/[0.06] text-xs font-medium text-apple-text hover:bg-black/5"
                   >
-                    Tambah
+                    Add
                   </button>
                 </div>
               </div>
 
-              {/* Links Demo & Repo */}
+              {/* URLs */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-ink-secondary mb-1">
-                    Live Demo URL
-                  </label>
+                  <label className="block text-xs font-medium text-apple-secondary mb-1">Live Demo URL</label>
                   <input
                     type="url"
                     value={formLinkDemo}
                     onChange={(e) => setFormLinkDemo(e.target.value)}
-                    placeholder="https://example.com"
-                    className="w-full px-3 py-2 rounded-xl bg-canvas border border-canvas-border text-xs text-ink focus:outline-none focus:border-sun-500"
+                    placeholder="https://..."
+                    className="w-full px-3 py-2 rounded-xl bg-apple-canvas border border-black/[0.06] text-xs text-apple-text focus:outline-none focus:border-apple-blue"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-ink-secondary mb-1">
-                    GitHub Repo URL
-                  </label>
+                  <label className="block text-xs font-medium text-apple-secondary mb-1">GitHub Repo URL</label>
                   <input
                     type="url"
                     value={formLinkRepo}
                     onChange={(e) => setFormLinkRepo(e.target.value)}
                     placeholder="https://github.com/..."
-                    className="w-full px-3 py-2 rounded-xl bg-canvas border border-canvas-border text-xs text-ink focus:outline-none focus:border-sun-500"
+                    className="w-full px-3 py-2 rounded-xl bg-apple-canvas border border-black/[0.06] text-xs text-apple-text focus:outline-none focus:border-apple-blue"
                   />
                 </div>
               </div>
 
-              {/* Featured & Display Order */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-canvas-border">
+              {/* Order & Featured */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-black/[0.06]">
                 <div className="flex items-center gap-3">
                   <input
                     type="checkbox"
                     id="featured-checkbox"
                     checked={formFeatured}
                     onChange={(e) => setFormFeatured(e.target.checked)}
-                    className="w-4 h-4 rounded text-sun-500 focus:ring-sun-400"
+                    className="w-4 h-4 rounded text-apple-blue focus:ring-apple-blue"
                   />
-                  <label htmlFor="featured-checkbox" className="text-xs font-medium text-ink cursor-pointer">
-                    Tampilkan sebagai Featured di Beranda
+                  <label htmlFor="featured-checkbox" className="text-xs font-medium text-apple-text cursor-pointer">
+                    Showcase on Home
                   </label>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-ink-secondary mb-1">
-                    Urutan Tampil (Nomor)
-                  </label>
+                  <label className="block text-xs font-medium text-apple-secondary mb-1">Order Index</label>
                   <input
                     type="number"
                     min={1}
                     value={formUrutan}
                     onChange={(e) => setFormUrutan(Number(e.target.value))}
-                    className="w-full px-3 py-1.5 rounded-xl bg-canvas border border-canvas-border text-xs font-mono text-ink focus:outline-none focus:border-sun-500"
+                    className="w-full px-3 py-1.5 rounded-xl bg-apple-canvas border border-black/[0.06] text-xs font-mono text-apple-text focus:outline-none focus:border-apple-blue"
                   />
                 </div>
               </div>
 
-              {/* Drawer Footer / Submit */}
-              <div className="pt-6 border-t border-canvas-border flex items-center justify-end gap-3 sticky bottom-0 bg-canvas-card py-4">
+              {/* Footer Actions */}
+              <div className="pt-6 border-t border-black/[0.06] flex items-center justify-end gap-3 sticky bottom-0 bg-white py-4">
                 <button
                   type="button"
                   onClick={() => setIsDrawerOpen(false)}
-                  className="px-4 py-2.5 rounded-xl bg-canvas-card border border-canvas-border text-xs font-semibold text-ink-secondary hover:bg-canvas-subtle transition"
+                  className="px-4 py-2 rounded-full text-xs font-medium text-apple-secondary hover:text-apple-text hover:bg-apple-canvas transition"
                 >
-                  Batal
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSaving}
-                  className="px-6 py-2.5 rounded-xl bg-sun-500 hover:bg-sun-600 disabled:opacity-50 text-ink font-semibold text-xs transition shadow-sm"
+                  className="px-6 py-2 rounded-full bg-apple-blue hover:bg-apple-blue-hover disabled:opacity-50 text-white font-medium text-xs transition shadow-sm"
                 >
-                  {isSaving ? "Menyimpan..." : "Simpan Perubahan"}
+                  {isSaving ? "Saving..." : "Save Changes"}
                 </button>
               </div>
             </form>

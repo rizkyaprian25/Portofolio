@@ -14,23 +14,25 @@ export default function Footer({ profile }: { profile: Profile }) {
   };
 
   return (
-    <footer id="contact" className="border-t border-canvas-border bg-canvas-subtle/60 py-16 md:py-20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer id="contact" className="bg-apple-canvas border-t border-black/[0.06] py-16 sm:py-20">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
         
-        {/* Main Call to Action Box */}
-        <div className="bg-canvas-card border border-canvas-border rounded-2xl p-8 sm:p-12 shadow-sunlit text-center max-w-3xl mx-auto mb-16">
-          <span className="text-2xl mb-2 inline-block">☕</span>
-          <h2 className="font-serif text-3xl sm:text-4xl text-ink font-normal leading-tight">
-            Let&rsquo;s build something great together.
+        {/* Apple Style Interaction Card */}
+        <div className="bg-white rounded-[28px] border border-black/[0.06] p-8 sm:p-14 text-center max-w-3xl mx-auto mb-16 shadow-apple-card">
+          <span className="text-xs uppercase tracking-widest font-semibold text-apple-secondary block mb-3">
+            Mari Terhubung
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-semibold text-apple-text tracking-tight leading-tight">
+            Punya ide proyek atau peluang kolaborasi?
           </h2>
-          <p className="text-sm sm:text-base text-ink-secondary mt-3 max-w-lg mx-auto">
-            Whether you have a breakthrough product in mind, a freelance inquiry, or just want to discuss software craftsmanship.
+          <p className="text-base text-apple-secondary mt-3 max-w-md mx-auto">
+            Terbuka untuk posisi Web Developer, proyek lepas (freelance), maupun eksplorasi implementasi AI &amp; ANI.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a
               href={`mailto:${profile.email}`}
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-sun-500 hover:bg-sun-600 text-ink font-semibold text-sm transition-all shadow-sm hover:shadow"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-apple-blue hover:bg-apple-blue-hover text-white text-sm font-medium transition shadow-sm"
             >
               <Mail className="w-4 h-4" />
               <span>{profile.email}</span>
@@ -38,16 +40,16 @@ export default function Footer({ profile }: { profile: Profile }) {
 
             <button
               onClick={handleCopyEmail}
-              className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-canvas-card hover:bg-canvas-subtle border border-canvas-border text-ink font-semibold text-sm transition-all shadow-sm"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-apple-canvas hover:bg-black/5 border border-black/[0.08] text-apple-text text-sm font-medium transition"
             >
               {copied ? (
                 <>
-                  <Check className="w-4 h-4 text-botanical-600" />
-                  <span className="text-botanical-700">Copied!</span>
+                  <Check className="w-4 h-4 text-apple-green" />
+                  <span className="text-apple-green">Copied</span>
                 </>
               ) : (
                 <>
-                  <Copy className="w-4 h-4 text-ink-muted" />
+                  <Copy className="w-4 h-4 text-apple-secondary" />
                   <span>Copy Address</span>
                 </>
               )}
@@ -55,21 +57,21 @@ export default function Footer({ profile }: { profile: Profile }) {
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-canvas-border flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-ink-muted">
+        {/* Apple Minimalist Sub-Footer */}
+        <div className="pt-8 border-t border-black/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-apple-secondary">
           <div>
-            © {new Date().getFullYear()} {profile.nama}. Crafted with care and warm daylight.
+            Copyright &copy; {new Date().getFullYear()} {profile.nama}. Built with precision. All rights reserved.
           </div>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-6">
             {profile.sosial_media.github && (
               <a
                 href={profile.sosial_media.github}
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-ink transition-colors flex items-center gap-1"
+                className="hover:text-apple-text transition-colors flex items-center gap-1"
               >
-                <Github className="w-4 h-4" />
+                <Github className="w-3.5 h-3.5" />
                 <span>GitHub</span>
               </a>
             )}
@@ -78,9 +80,9 @@ export default function Footer({ profile }: { profile: Profile }) {
                 href={profile.sosial_media.linkedin}
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-ink transition-colors flex items-center gap-1"
+                className="hover:text-apple-text transition-colors flex items-center gap-1"
               >
-                <Linkedin className="w-4 h-4" />
+                <Linkedin className="w-3.5 h-3.5" />
                 <span>LinkedIn</span>
               </a>
             )}
@@ -89,10 +91,10 @@ export default function Footer({ profile }: { profile: Profile }) {
                 href={profile.sosial_media.twitter}
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-ink transition-colors flex items-center gap-1"
+                className="hover:text-apple-text transition-colors flex items-center gap-1"
               >
-                <Twitter className="w-4 h-4" />
-                <span>Twitter/X</span>
+                <Twitter className="w-3.5 h-3.5" />
+                <span>Twitter</span>
               </a>
             )}
           </div>

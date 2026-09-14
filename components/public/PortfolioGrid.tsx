@@ -2,53 +2,40 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { ArrowUpRight, ExternalLink, Github, Sparkles, X } from "lucide-react";
+import { ChevronRight, ExternalLink, Github, X } from "lucide-react";
 import { PortfolioItem } from "@/lib/db";
 
 export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] }) {
   const [selectedProject, setSelectedProject] = useState<PortfolioItem | null>(null);
 
-  // Soft cheerful pastel colors for technology pills
-  const getTagColorClass = (index: number) => {
-    const colors = [
-      "bg-sun-100 text-amber-800 border-amber-200",
-      "bg-sky-100 text-sky-800 border-sky-200",
-      "bg-botanical-100 text-emerald-800 border-emerald-200",
-      "bg-orange-100 text-orange-800 border-orange-200",
-      "bg-purple-100 text-purple-800 border-purple-200",
-    ];
-    return colors[index % colors.length];
-  };
-
   return (
-    <section id="work" className="py-16 md:py-24 border-t border-canvas-border">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="work" className="py-20 md:py-28 bg-white border-t border-black/[0.06]">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
         
-        {/* Section Header */}
-        <div className="max-w-2xl mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-sun-600 mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Selected Work</span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-4xl text-ink font-normal leading-tight">
-            Curated projects & engineering studies
+        {/* Apple Style Section Header */}
+        <div className="max-w-3xl mb-14 sm:mb-16">
+          <span className="text-xs uppercase tracking-widest font-semibold text-apple-secondary block mb-2">
+            Selected Works
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-semibold text-apple-text tracking-tight leading-tight">
+            Engineered with craft. Built to perform.
           </h2>
-          <p className="text-sm sm:text-base text-ink-secondary mt-2">
-            A small collection of digital products, distributed systems, and open-source explorations built with architectural rigor.
+          <p className="text-base sm:text-lg text-apple-secondary mt-3">
+            A showcase of digital products, scalable web systems, and open-source software crafted with rigorous attention to detail.
           </p>
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, idx) => (
+        {/* Apple Bento-Style Project Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {projects.map((project) => (
             <article
               key={project.id}
-              className="group flex flex-col bg-canvas-card rounded-2xl border border-canvas-border overflow-hidden shadow-sunlit hover:shadow-sunlit-hover transition-all duration-300 hover:-translate-y-1"
+              className="group flex flex-col bg-apple-canvas rounded-[24px] border border-black/[0.06] overflow-hidden transition-all duration-300 hover:shadow-apple-hover hover:-translate-y-1"
             >
-              {/* Card Image Thumbnail */}
+              {/* Card Image Area */}
               <div
                 onClick={() => setSelectedProject(project)}
-                className="relative aspect-[16/10] w-full bg-canvas-subtle overflow-hidden cursor-pointer"
+                className="relative aspect-[16/10] w-full bg-black/5 overflow-hidden cursor-pointer"
               >
                 {project.gambar && project.gambar.length > 0 ? (
                   <Image
@@ -56,31 +43,30 @@ export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] 
                     alt={project.judul}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover object-top group-hover:scale-[1.03] transition-transform duration-500 ease-out"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-ink-muted text-xs">
-                    No preview available
+                  <div className="w-full h-full flex items-center justify-center text-apple-secondary text-xs">
+                    No preview
                   </div>
                 )}
+                
                 {project.featured && (
-                  <span className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-sun-500 text-ink text-[10px] font-bold tracking-wider uppercase shadow-sm">
+                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full apple-glass border border-black/[0.08] text-[11px] font-semibold text-apple-text shadow-sm">
                     Featured
-                  </span>
+                  </div>
                 )}
               </div>
 
-              {/* Card Body */}
-              <div className="p-6 flex-1 flex flex-col justify-between">
+              {/* Card Content */}
+              <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                 <div>
-                  {/* Tech Tags */}
+                  {/* Technology Tags in Apple Minimalist Capsule */}
                   <div className="flex flex-wrap gap-1.5 mb-3">
-                    {project.teknologi.map((tech, techIdx) => (
+                    {project.teknologi.map((tech) => (
                       <span
                         key={tech}
-                        className={`text-[11px] font-medium px-2 py-0.5 rounded-md border ${getTagColorClass(
-                          techIdx
-                        )}`}
+                        className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-white border border-black/[0.06] text-apple-text shadow-[0_1px_2px_rgba(0,0,0,0.02)]"
                       >
                         {tech}
                       </span>
@@ -90,25 +76,25 @@ export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] 
                   {/* Title */}
                   <h3
                     onClick={() => setSelectedProject(project)}
-                    className="font-serif text-xl font-normal text-ink group-hover:text-sun-600 transition-colors cursor-pointer leading-snug"
+                    className="text-lg font-semibold text-apple-text group-hover:text-apple-blue transition-colors cursor-pointer leading-snug tracking-tight"
                   >
                     {project.judul}
                   </h3>
 
-                  {/* Description */}
-                  <p className="text-xs sm:text-sm text-ink-secondary mt-2 line-clamp-2 leading-relaxed">
+                  {/* Short Description */}
+                  <p className="text-xs sm:text-sm text-apple-secondary mt-2 line-clamp-2 leading-relaxed">
                     {project.deskripsi_singkat}
                   </p>
                 </div>
 
-                {/* Card Action Links */}
-                <div className="pt-5 mt-5 border-t border-canvas-border flex items-center justify-between">
+                {/* Apple Style Text Actions */}
+                <div className="pt-4 border-t border-black/[0.06] flex items-center justify-between text-xs">
                   <button
                     onClick={() => setSelectedProject(project)}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-ink hover:text-sun-600 transition-colors"
+                    className="inline-flex items-center gap-0.5 text-apple-blue font-medium hover:underline group/btn"
                   >
-                    <span>Read Study</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
+                    <span>Learn more</span>
+                    <ChevronRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
                   </button>
 
                   <div className="flex items-center gap-3">
@@ -117,8 +103,7 @@ export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] 
                         href={project.link_demo}
                         target="_blank"
                         rel="noreferrer"
-                        className="text-xs font-medium text-ink-muted hover:text-ink transition-colors flex items-center gap-1"
-                        title="Live Preview"
+                        className="text-apple-secondary hover:text-apple-text transition-colors flex items-center gap-1 font-medium"
                       >
                         <span>Demo</span>
                         <ExternalLink className="w-3 h-3" />
@@ -129,14 +114,15 @@ export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] 
                         href={project.link_repo}
                         target="_blank"
                         rel="noreferrer"
-                        className="text-xs font-medium text-ink-muted hover:text-ink transition-colors flex items-center gap-1"
-                        title="GitHub Repository"
+                        className="text-apple-secondary hover:text-apple-text transition-colors"
+                        title="GitHub"
                       >
                         <Github className="w-3.5 h-3.5" />
                       </a>
                     )}
                   </div>
                 </div>
+
               </div>
             </article>
           ))}
@@ -144,30 +130,28 @@ export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] 
 
       </div>
 
-      {/* Project Detail Modal */}
+      {/* Apple Sheet Modal */}
       {selectedProject && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/40 backdrop-blur-sm animate-fadeIn">
-          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-canvas-card rounded-2xl border border-canvas-border shadow-sunlit-lg p-6 sm:p-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md animate-fadeIn">
+          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-apple-card rounded-[28px] border border-black/[0.08] shadow-apple-float p-6 sm:p-8">
             
             {/* Close Button */}
             <button
               onClick={() => setSelectedProject(null)}
-              className="absolute top-5 right-5 p-2 rounded-full text-ink-muted hover:text-ink hover:bg-canvas-subtle transition-colors"
+              className="absolute top-5 right-5 p-2 rounded-full bg-apple-canvas text-apple-secondary hover:text-apple-text transition-colors"
               aria-label="Close"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
 
-            {/* Modal Content */}
-            <div className="space-y-5">
-              {/* Tech Tags */}
+            {/* Modal Body */}
+            <div className="space-y-6">
+              {/* Tags */}
               <div className="flex flex-wrap gap-1.5">
-                {selectedProject.teknologi.map((tech, i) => (
+                {selectedProject.teknologi.map((tech) => (
                   <span
                     key={tech}
-                    className={`text-xs font-medium px-2.5 py-0.5 rounded-md border ${getTagColorClass(
-                      i
-                    )}`}
+                    className="text-xs font-medium px-3 py-1 rounded-full bg-apple-canvas border border-black/[0.06] text-apple-text"
                   >
                     {tech}
                   </span>
@@ -175,37 +159,37 @@ export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] 
               </div>
 
               {/* Title */}
-              <h3 className="font-serif text-2xl sm:text-3xl text-ink font-normal leading-snug">
+              <h3 className="text-2xl sm:text-3xl font-semibold text-apple-text tracking-tight">
                 {selectedProject.judul}
               </h3>
 
-              {/* Big Image */}
+              {/* Image Preview */}
               {selectedProject.gambar && selectedProject.gambar.length > 0 && (
-                <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden bg-canvas-subtle border border-canvas-border">
+                <div className="relative aspect-[16/9] w-full rounded-[20px] overflow-hidden bg-apple-canvas border border-black/[0.06]">
                   <Image
                     src={selectedProject.gambar[0]}
                     alt={selectedProject.judul}
                     fill
-                    sizes="(max-width: 768px) 100vw, 600px"
+                    sizes="(max-width: 768px) 100vw, 700px"
                     className="object-cover object-top"
                   />
                 </div>
               )}
 
               {/* Full Description */}
-              <div className="text-sm text-ink-secondary leading-relaxed whitespace-pre-line">
+              <div className="text-sm text-apple-secondary leading-relaxed whitespace-pre-line">
                 {selectedProject.deskripsi_lengkap || selectedProject.deskripsi_singkat}
               </div>
 
-              {/* Modal Actions */}
-              <div className="pt-5 border-t border-canvas-border flex flex-wrap items-center justify-between gap-4">
+              {/* Modal Actions in Apple Pill Style */}
+              <div className="pt-6 border-t border-black/[0.06] flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                   {selectedProject.link_demo && (
                     <a
                       href={selectedProject.link_demo}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-sun-500 hover:bg-sun-600 text-ink font-semibold text-xs transition shadow-sm"
+                      className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-apple-blue hover:bg-apple-blue-hover text-white font-medium text-xs transition shadow-sm"
                     >
                       <span>Open Live Demo</span>
                       <ExternalLink className="w-3.5 h-3.5" />
@@ -216,7 +200,7 @@ export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] 
                       href={selectedProject.link_repo}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-canvas-card hover:bg-canvas-subtle border border-canvas-border text-ink font-semibold text-xs transition"
+                      className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-apple-canvas hover:bg-black/5 border border-black/[0.08] text-apple-text font-medium text-xs transition"
                     >
                       <Github className="w-3.5 h-3.5" />
                       <span>Source Code</span>
@@ -226,9 +210,9 @@ export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] 
 
                 <button
                   onClick={() => setSelectedProject(null)}
-                  className="text-xs font-medium text-ink-muted hover:text-ink px-3 py-1.5"
+                  className="text-xs font-medium text-apple-secondary hover:text-apple-text px-3 py-1.5"
                 >
-                  Close
+                  Done
                 </button>
               </div>
 

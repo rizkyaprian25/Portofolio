@@ -8,120 +8,137 @@ export default function Navbar({ email, name }: { email: string; name: string })
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const [clickCount, setClickCount] = useState(0);
+
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Secret shortcut (Ctrl+Shift+A or Cmd+Shift+A) to open hidden admin portal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "A" || e.key === "a")) {
+        e.preventDefault();
+        window.location.href = "/admin/login";
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // Secret triple click on the monogram dot
+  const handleDotClick = () => {
+    const newCount = clickCount + 1;
+    setClickCount(newCount);
+    if (newCount >= 3) {
+      setClickCount(0);
+      window.location.href = "/admin/login";
+    }
+  };
+
   return (
     <header
-      className={`sticky top-0 z-40 transition-all duration-300 ${
+      className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-canvas/90 backdrop-blur-md border-b border-canvas-border shadow-sm py-3.5"
-          : "bg-transparent py-5"
+          ? "apple-glass border-b border-black/[0.08] shadow-[0_1px_3px_rgba(0,0,0,0.02)]"
+          : "apple-glass border-b border-black/[0.04]"
       }`}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* Brand */}
-        <Link href="/" className="group flex items-center gap-2">
-          <span className="font-serif text-xl sm:text-2xl font-normal tracking-tight text-ink group-hover:text-sun-600 transition-colors">
-            {name}
-          </span>
-          <span className="text-xs font-sans text-ink-muted hidden sm:inline-block border-l border-canvas-border pl-2">
-            Portfolio
-          </span>
-        </Link>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 flex items-center justify-between h-12 text-[13px]">
+        {/* Brand with secret dot trigger */}
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={handleDotClick}
+            title="Muhamad Rizky Aprian"
+            className="w-2.5 h-2.5 rounded-full bg-apple-blue inline-block hover:scale-125 transition-transform cursor-pointer"
+            aria-label="Monogram"
+          />
+          <Link href="/" className="font-semibold text-apple-text tracking-tight hover:opacity-80 transition">
+            <span>{name}</span>
+          </Link>
+        </div>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-ink-secondary">
-          <Link href="#work" className="hover:text-ink transition-colors">
+        {/* Apple Style Minimalist Center Nav */}
+        <nav className="hidden md:flex items-center gap-7 text-apple-secondary font-normal">
+          <Link href="#overview" className="hover:text-apple-text transition-colors">
+            Overview
+          </Link>
+          <Link href="#work" className="hover:text-apple-text transition-colors">
             Projects
           </Link>
-          <Link href="#about" className="hover:text-ink transition-colors">
-            About & Skills
+          <Link href="#craft" className="hover:text-apple-text transition-colors">
+            Craft &amp; Philosophy
           </Link>
-          <Link href="#cv" className="hover:text-ink transition-colors">
-            Resume / CV
-          </Link>
-          <Link href="#contact" className="hover:text-ink transition-colors">
-            Contact
+          <Link href="#resume" className="hover:text-apple-text transition-colors">
+            Resume
           </Link>
         </nav>
 
-        {/* Action button */}
+        {/* Right CTA Actions (Admin link completely hidden from front) */}
         <div className="hidden md:flex items-center gap-3">
           <Link
-            href="/admin"
-            className="text-xs text-ink-muted hover:text-ink transition-colors px-2 py-1"
+            href="#contact"
+            className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-apple-blue hover:bg-apple-blue-hover text-white font-medium text-xs transition-all shadow-sm active:scale-95"
           >
-            Admin Panel
+            <span>Contact</span>
+            <ArrowUpRight className="w-3 h-3" />
           </Link>
-          <a
-            href={`mailto:${email}`}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-sun-500 hover:bg-sun-600 text-ink font-semibold text-xs transition-all shadow-sm hover:shadow active:scale-95"
-          >
-            Say Hello 👋
-            <ArrowUpRight className="w-3.5 h-3.5" />
-          </a>
         </div>
 
         {/* Mobile menu toggle */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 rounded-lg text-ink-secondary hover:text-ink hover:bg-canvas-subtle"
+          className="md:hidden p-1.5 rounded-lg text-apple-secondary hover:text-apple-text"
           aria-label="Toggle Menu"
         >
-          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
         </button>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer (Clean, no admin link) */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-canvas border-b border-canvas-border px-6 py-4 space-y-3 animate-fadeIn">
+        <div className="md:hidden apple-glass border-b border-black/[0.08] px-6 py-4 space-y-3">
+          <Link
+            href="#overview"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block text-sm text-apple-secondary hover:text-apple-text py-1"
+          >
+            Overview
+          </Link>
           <Link
             href="#work"
             onClick={() => setMobileMenuOpen(false)}
-            className="block text-sm font-medium text-ink-secondary hover:text-ink py-1.5"
+            className="block text-sm text-apple-secondary hover:text-apple-text py-1"
           >
             Projects
           </Link>
           <Link
-            href="#about"
+            href="#craft"
             onClick={() => setMobileMenuOpen(false)}
-            className="block text-sm font-medium text-ink-secondary hover:text-ink py-1.5"
+            className="block text-sm text-apple-secondary hover:text-apple-text py-1"
           >
-            About & Skills
+            Craft &amp; Philosophy
           </Link>
           <Link
-            href="#cv"
+            href="#resume"
             onClick={() => setMobileMenuOpen(false)}
-            className="block text-sm font-medium text-ink-secondary hover:text-ink py-1.5"
+            className="block text-sm text-apple-secondary hover:text-apple-text py-1"
           >
-            Resume / CV
+            Resume
           </Link>
-          <Link
-            href="#contact"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block text-sm font-medium text-ink-secondary hover:text-ink py-1.5"
-          >
-            Contact
-          </Link>
-          <div className="pt-3 border-t border-canvas-border flex items-center justify-between">
+          <div className="pt-3 border-t border-black/[0.06] flex items-center justify-end">
             <Link
-              href="/admin"
-              className="text-xs text-ink-muted hover:text-ink"
+              href="#contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-apple-blue text-white font-medium text-xs"
             >
-              Admin Panel
+              Contact
             </Link>
-            <a
-              href={`mailto:${email}`}
-              className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-sun-500 text-ink font-semibold text-xs"
-            >
-              Say Hello 👋
-            </a>
           </div>
         </div>
       )}

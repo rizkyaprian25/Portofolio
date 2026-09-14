@@ -1,53 +1,55 @@
 {
   "profile": {
-    "nama": "Arif Rahman",
-    "tagline": "Designing & building thoughtful digital experiences with craft and care.",
-    "bio": "Full-stack software engineer and digital craftsman specializing in modern web applications, clean architecture, and delightful user interfaces. I believe in software built with clarity, speed, and genuine human warmth.",
-    "foto_url": "https://lh3.googleusercontent.com/aida/AEtjO1UgmU9D99WQHe-slqS8tI8bqNZ5nfo8kYnfWWT5RMjNKLPCJeg-OxiK68LrfdW9FAG_RrN0wjdG-Bo2hbKfiqiDjoVYNzBJcFnv2e-Z2wpCQvh_UIWMB_gX3vp4aV7Ta__7hexD-kg3sQCDoKlsZvHSP9yzwYRfOMywDIr7QsHJFH7aOO_mxlICTl7-UZhBV0_7Y2qKDOMcXZrNPMVWWIAfErnKQOyI2P6RM4ARQ4A_ZJe_o2lKFGDn2YlF",
-    "email": "arif@rahman.dev",
-    "lokasi": "Jakarta, Indonesia",
-    "status_ketersediaan": "Available for freelance & full-time",
+    "nama": "Muhamad Rizky Aprian",
+    "tagline": "Web & Mobile Developer, AI Enthusiast building high-craft digital products with modern technologies and Artificial Narrow Intelligence (ANI).",
+    "bio": "Web & Mobile Developer serta AI Enthusiast yang berfokus membangun aplikasi web dan mobile modern yang cepat, responsif, dan elegan. Terbiasa mengoptimalkan alur kerja software engineering dengan Artificial Narrow Intelligence (ANI) agentic tools seperti Google Antigravity AI, OpenCode, dan Claude Code.",
+    "foto_url": "/Profil.jpeg",
+    "email": "rizkyaprian25@gmail.com",
+    "lokasi": "Indonesia",
+    "status_ketersediaan": "Sedang Bekerja Penuh Waktu (Full-time)",
     "sosial_media": {
-      "github": "https://github.com",
-      "linkedin": "https://linkedin.com",
-      "twitter": "https://twitter.com",
-      "readcv": "https://read.cv"
+      "github": "https://github.com/rizkyaprian25",
+      "linkedin": "https://linkedin.com/in/rizkyaprian",
+      "twitter": "https://twitter.com"
     },
     "skills": {
       "frontend": [
         "Next.js 14",
         "React",
+        "React Native",
+        "Mobile App UI",
         "TypeScript",
         "Tailwind CSS",
-        "Zustand",
-        "HTML/CSS"
+        "JavaScript (ES6+)",
+        "HTML5 / CSS3"
       ],
       "backend": [
         "Node.js",
-        "Go",
+        "REST APIs",
         "PostgreSQL",
         "Prisma / Drizzle",
-        "REST & GraphQL",
-        "Redis"
+        "Python / FastAPI",
+        "WebSockets"
       ],
       "tools_design": [
-        "Figma",
+        "Google Antigravity AI",
+        "Claude Code",
+        "OpenCode",
+        "Artificial Narrow Intelligence (ANI)",
+        "Git / GitHub",
         "Docker",
-        "Git",
-        "Vercel",
-        "Linux / VPS",
-        "Jest / Vitest"
+        "Vercel / VPS"
       ]
     },
-    "updated_at": "2026-09-13T22:38:52.114Z"
+    "updated_at": "2026-09-14T15:19:04.037Z"
   },
   "portfolio": [
     {
       "id": "proj-1",
       "judul": "Aura — Editorial Writing & Knowledge Platform",
       "slug": "aura-editorial-writing",
-      "deskripsi_singkat": "A distraction-free markdown publishing engine with live semantic synthesis and typography control.",
-      "deskripsi_lengkap": "Aura is an independent publishing platform designed for writers, researchers, and technical essayists. Built with a focus on serene minimalism, it features zero-latency markdown rendering, semantic linking, automated table of contents generation, and bespoke typography control for high-fidelity reading experiences.",
+      "deskripsi_singkat": "Platform penulisan markdown bebas distraksi dengan rendering instan, sintesis semantik, dan kontrol tipografi presisi.",
+      "deskripsi_lengkap": "Aura adalah platform publikasi mandiri yang dirancang untuk penulis, peneliti, dan developer. Dibangun dengan pendekatan minimalis elegan, menghadirkan zero-latency markdown rendering, semantic linking, pembuatan daftar isi otomatis, dan kontrol tipografi untuk kenyamanan membaca prima.",
       "gambar": [
         "https://lh3.googleusercontent.com/aida/AEtjO1URT0U_BeittlihGdGIWKUJmLCw3HLrzVRDqLmuWRuCjKqC6TzM2xy8sWwLedvTuEG5w_S3HQ3NzfSEQJvz-qQh6Ma4bnvOhp0LQ3NsmMsPb_AoOGV4oksCz0pEHx3De5QkKxh4gnyShchVTMGINoY5C2AoLd8uD1I6cgmzitZTQH8dnJu4aYnMfT1wH7DC1bpJL5XAGSeMlDqhDWkUmvbLiaOp6Z8vnTtGq90OfDZ5oLRfHFdvH3KGF-QQ"
       ],
@@ -57,8 +59,8 @@
         "Tailwind CSS",
         "PostgreSQL"
       ],
-      "link_demo": "https://aura.arifrahman.dev",
-      "link_repo": "https://github.com/arifrahman/aura-platform",
+      "link_demo": "https://aura.rizkyaprian.dev",
+      "link_repo": "https://github.com/rizkyaprian25/aura-platform",
       "featured": true,
       "urutan": 1,
       "created_at": "2024-08-10T10:00:00.000Z",
@@ -68,20 +70,20 @@
       "id": "proj-2",
       "judul": "FinWellness — Financial Health & Mindful Budgeting",
       "slug": "finwellness-budgeting",
-      "deskripsi_singkat": "Predictive cash flow telemetry and automated envelope budgeting designed for mindful personal finance.",
-      "deskripsi_lengkap": "FinWellness transforms personal wealth management from stressful arithmetic into calm, mindful decision making. Features include multi-currency bank account synchronization, recurring bill forecasting, interactive scenario modeling, and an offline-first mobile-responsive architecture.",
+      "deskripsi_singkat": "Telemetri arus kas prediktif dan automated envelope budgeting untuk manajemen keuangan yang tenang dan terarah.",
+      "deskripsi_lengkap": "FinWellness mengubah manajemen keuangan pribadi dari perhitungan rumit menjadi pengambilan keputusan yang tenang dan terukur. Fitur meliputi sinkronisasi multi-akun, peramalan tagihan berulang, pemodelan skenario interaktif, dan arsitektur responsif ramah seluler.",
       "gambar": [
         "https://lh3.googleusercontent.com/aida/AEtjO1VQkaQmFtWFomVABHAWSlR_8fvaOm9DlYeJvQycNQoLpG7O9uM-8S0LFq29r-8SsSNVMNuMfKmHXJtXS4Br2IjeXWsQOHBgXaBR9jcu4IiHfuM_mjRUSHerGtjiW_TxoKd-yNTPbTB9Cl7JYO1RnZyg_aTMST61RslpGZzb1ckqk9cv2_plWsVp8INorqIUXZVCFvO4gM-CQjLq4iSTFJ94GJbipyIQwnnOzUGYFfn5hPD4A46NG5Zw0it2"
       ],
       "teknologi": [
+        "React Native",
         "React",
         "Node.js",
         "TypeScript",
-        "PostgreSQL",
-        "Recharts"
+        "PostgreSQL"
       ],
-      "link_demo": "https://finwellness.arifrahman.dev",
-      "link_repo": "https://github.com/arifrahman/finwellness",
+      "link_demo": "https://finwellness.rizkyaprian.dev",
+      "link_repo": "https://github.com/rizkyaprian25/finwellness",
       "featured": true,
       "urutan": 2,
       "created_at": "2024-06-15T10:00:00.000Z",
@@ -91,8 +93,8 @@
       "id": "proj-3",
       "judul": "PulseCare+ — Telemetry & Clinical Monitoring",
       "slug": "pulsecare-telemetry",
-      "deskripsi_singkat": "Real-time physiological telemetry dashboard with sub-second WebSocket updates for healthcare specialists.",
-      "deskripsi_lengkap": "An enterprise medical telemetry dashboard built for ICU and ambulatory observation units. Connects directly to hospital sensor hubs via secure WebSockets to display heart-rate variability, oxygen saturation, and automated arrhythmia anomaly detection with zero perceived latency.",
+      "deskripsi_singkat": "Dashboard telemetri klinis real-time dengan update sub-detik WebSockets untuk pemantauan parameter vital pasien.",
+      "deskripsi_lengkap": "Dashboard telemetri medis yang dibangun untuk unit observasi dan perawatan intensif. Terhubung langsung ke sensor hub melalui WebSockets berkecepatan tinggi untuk menampilkan variabilitas detak jantung, saturasi oksigen, serta deteksi anomali aritmia tanpa jeda waktu.",
       "gambar": [
         "https://lh3.googleusercontent.com/aida/AEtjO1X2oHMnBVqZ7uFKyce5bj0t3ijQRwacFSi0UtPJvk0d3QxUDpw3OpEWJx7IHMtgX4C2HjLnyl9-ZO0mCIqZ-x37N6yZwS3aE2iVqeFbJgwSn3Ad8--tICIU8_t7qNHkUQL0LH1Cu_S_wEAZ_yG-mCrbsJEJ47cHAFUHXU6VagCcCS2FvnfxCDWwcJv651upUEMDCeqqB-H8e8T086oDRnpfkdjb1o5kJSrUq0YLLgiDztWYqrET8ND6eZk"
       ],
@@ -103,8 +105,8 @@
         "Redis",
         "Next.js"
       ],
-      "link_demo": "https://pulsecare.arifrahman.dev",
-      "link_repo": "https://github.com/arifrahman/pulsecare",
+      "link_demo": "https://pulsecare.rizkyaprian.dev",
+      "link_repo": "https://github.com/rizkyaprian25/pulsecare",
       "featured": true,
       "urutan": 3,
       "created_at": "2024-04-05T10:00:00.000Z",
@@ -113,13 +115,14 @@
   ],
   "cv": {
     "file_url": "/cv.pdf",
-    "filename": "Arif_Rahman_Curriculum_Vitae.pdf",
+    "filename": "Muhamad_Rizky_Aprian_CV.pdf",
     "file_size": "2.4 MB",
     "versi": "v3.2",
-    "updated_at": "2024-10-01T08:00:00.000Z"
+    "updated_at": "2026-09-14T21:44:00.000Z"
   },
   "admin": {
     "username": "admin",
-    "password_hash": "$2a$10$Lbi/KR7xXKb/53jHQa2KHOi7NEuGiK7B07htoaF6W4Hlo8/UALH/q"
+    "password_hash": "$2a$10$Lbi/KR7xXKb/53jHQa2KHOi7NEuGiK7B07htoaF6W4Hlo8/UALH/q",
+    "security_code": "889900"
   }
 }

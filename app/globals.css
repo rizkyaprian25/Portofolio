@@ -1,43 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --font-newsreader: 'Newsreader', Georgia, serif;
-  --font-jakarta: 'Plus Jakarta Sans', Inter, -apple-system, sans-serif;
+  color-scheme: light;
 }
 
 body {
-  background-color: #FAF9F6;
-  color: #18181B;
-  font-family: 'Plus Jakarta Sans', Inter, -apple-system, sans-serif;
+  background-color: #F5F5F7;
+  color: #1D1D1F;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Inter, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.011em;
 }
 
-/* Custom smooth scrollbar */
+/* Apple Liquid Glass / Translucency Material */
+.apple-glass {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+
+.apple-glass-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Apple Smooth Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #FAF9F6;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D6D3D1;
-  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #A8A29E;
+  background: rgba(0, 0, 0, 0.3);
 }
 
-/* Editorial selection */
+/* Apple Selection Accent */
 ::selection {
-  background-color: #FEF3C7;
-  color: #78350F;
+  background-color: rgba(0, 113, 227, 0.2);
+  color: #1D1D1F;
+}
+
+/* Apple Passcode Rejection Shake Animation */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+
+.animate-shake {
+  animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
