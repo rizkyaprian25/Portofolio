@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Check, UploadCloud, User } from "lucide-react";
+import { Check, Copy, ExternalLink, KeyRound, Lock, ShieldCheck, UploadCloud, User } from "lucide-react";
 import { Profile } from "@/lib/db";
 
 export default function ProfileEditor({ initialProfile }: { initialProfile: Profile }) {
@@ -25,6 +25,23 @@ export default function ProfileEditor({ initialProfile }: { initialProfile: Prof
   const [isUploading, setIsUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<{ text: string; isError?: boolean } | null>(null);
+
+  // Admin Security Settings State
+  const [secretPath, setSecretPath] = useState("5495i403-asjdd");
+  const [securityCode, setSecurityCode] = useState("889900");
+  const [isSavingSecurity, setIsSavingSecurity] = useState(false);
+  const [securityMsg, setSecurityMsg] = useState<{ text: string; isError?: boolean } | null>(null);
+  const [copiedLink, setCopiedLink] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/auth/security")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.secret_path) setSecretPath(data.secret_path);
+        if (data.security_code) setSecurityCode(data.security_code);
+      })
+      .catch(() => {});
+  }, []);
 
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -365,6 +382,174 @@ export default function ProfileEditor({ initialProfile }: { initialProfile: Prof
         </div>
 
       </form>
+
+      {/* Apple Security & Secret Access URL Card */}
+      <div className="mt-8 apple-card p-6 md:p-8 space-y-6">
+        <div className="flex items-center justify-between border-b border-black/[0.06] pb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-apple-canvas border border-black/[0.08] flex items-center justify-center text-apple-blue shadow-inner">
+              <KeyRound className="w-5 h-5 stroke-[1.75]" />
+            </div>
+            <div>
+              <h2 className="text-base font-semibold text-apple-text tracking-tight">
+                Keamanan &amp; URL Akses Rahasia
+              </h2>
+              <p className="text-xs text-apple-secondary">
+                Atur kode rahasia pada URL admin dan 6-digit passcode proteksi.
+              </p>
+            </div>
+          </div>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-medium">
+            <ShieldCheck className="w-3.5 h-3.5" />
+            Protected
+          </span>
+        </div>
+
+        {securityMsg && (
+          <div
+            className={`p-3 rounded-2xl text-xs flex items-center gap-2 border ${
+              securityMsg.isError
+                ? "bg-red-50/80 text-red-700 border-red-200/80"
+                : "bg-emerald-50/80 text-emerald-700 border-emerald-200/80"
+            }`}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-current" />
+            <span>{securityMsg.text}</span>
+          </div>
+        )}
+
+        {/* Current Secret Access URL Display */}
+        <div className="p-4 rounded-2xl bg-apple-canvas border border-black/[0.06] space-y-2">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-semibold text-apple-text uppercase tracking-wider">
+              URL Akses Rahasia Saat Ini
+            </label>
+            <span className="text-[11px] font-mono text-apple-secondary">
+              Akses Langsung via Browser
+            </span>
+          </div>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+            <div className="flex-1 px-3.5 py-2.5 rounded-xl bg-white border border-black/[0.08] text-xs font-mono text-apple-text flex items-center justify-between overflow-x-auto select-all">
+              <span className="text-apple-secondary">/admin/</span>
+              <span className="font-semibold text-apple-blue">{secretPath}</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                const fullUrl = `${window.location.origin}/admin/${secretPath}`;
+                navigator.clipboard.writeText(fullUrl);
+                setCopiedLink(true);
+                setTimeout(() => setCopiedLink(false), 2000);
+              }}
+              className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-white hover:bg-apple-canvas border border-black/[0.08] text-xs font-medium text-apple-text transition shadow-sm"
+            >
+              {copiedLink ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-600" />
+                  <span className="text-emerald-600">Disalin!</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5 text-apple-secondary" />
+                  <span>Salin URL</span>
+                </>
+              )}
+            </button>
+          </div>
+          <p className="text-[11px] text-apple-secondary leading-relaxed">
+            Halaman <code className="px-1 py-0.5 rounded bg-black/[0.04] text-apple-text font-mono">/admin</code> dan <code className="px-1 py-0.5 rounded bg-black/[0.04] text-apple-text font-mono">/admin/login</code> umum otomatis mengembalikan respon <strong>404 (Not Found)</strong> bagi siapa saja yang tidak memiliki izin. Anda hanya bisa masuk lewat link rahasia di atas.
+          </p>
+        </div>
+
+        {/* Security Update Form */}
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            setIsSavingSecurity(true);
+            setSecurityMsg(null);
+            try {
+              const res = await fetch("/api/auth/security", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  secret_path: secretPath,
+                  security_code: securityCode,
+                }),
+              });
+              const data = await res.json();
+              if (res.ok) {
+                setSecurityMsg({ text: "Pengaturan keamanan dan URL rahasia berhasil diperbarui!" });
+                if (data.secret_path) setSecretPath(data.secret_path);
+              } else {
+                setSecurityMsg({ text: data.error || "Gagal memperbarui keamanan", isError: true });
+              }
+            } catch {
+              setSecurityMsg({ text: "Terjadi kesalahan jaringan", isError: true });
+            } finally {
+              setIsSavingSecurity(false);
+            }
+          }}
+          className="space-y-4 pt-2"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-[11px] font-semibold text-apple-text uppercase tracking-wider mb-1.5">
+                Kode URL Rahasia (Slug)
+              </label>
+              <div className="relative">
+                <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-xs font-mono text-apple-secondary pointer-events-none">
+                  /admin/
+                </span>
+                <input
+                  type="text"
+                  required
+                  value={secretPath}
+                  onChange={(e) => setSecretPath(e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ""))}
+                  placeholder="5495i403-asjdd"
+                  className="w-full pl-16 pr-3.5 py-2.5 rounded-xl bg-apple-canvas border border-black/[0.08] text-xs font-mono font-medium text-apple-text focus:outline-none focus:border-apple-blue focus:bg-white transition"
+                />
+              </div>
+              <p className="text-[10px] text-apple-secondary mt-1">
+                Gunakan kombinasi huruf kecil, angka, dan tanda hubung (misal: <code>5495i403-asjdd</code>).
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-[11px] font-semibold text-apple-text uppercase tracking-wider mb-1.5">
+                6-Digit Security Passcode
+              </label>
+              <div className="relative">
+                <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-apple-secondary pointer-events-none">
+                  <Lock className="w-3.5 h-3.5" />
+                </span>
+                <input
+                  type="text"
+                  required
+                  maxLength={6}
+                  value={securityCode}
+                  onChange={(e) => setSecurityCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                  placeholder="889900"
+                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl bg-apple-canvas border border-black/[0.08] text-xs font-mono font-medium text-apple-text focus:outline-none focus:border-apple-blue focus:bg-white tracking-widest transition"
+                />
+              </div>
+              <p className="text-[10px] text-apple-secondary mt-1">
+                Kunci pertama sebelum formulir username &amp; password terbuka.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex justify-end pt-2">
+            <button
+              type="submit"
+              disabled={isSavingSecurity}
+              className="px-5 py-2 rounded-full bg-apple-text hover:bg-black disabled:opacity-50 text-white font-medium text-xs transition shadow-sm"
+            >
+              {isSavingSecurity ? "Menyimpan Keamanan..." : "Simpan Kode Rahasia & Passcode"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
+

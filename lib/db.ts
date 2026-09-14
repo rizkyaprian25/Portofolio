@@ -52,6 +52,7 @@ export interface AdminUser {
   username: string;
   password_hash: string;
   security_code?: string;
+  secret_path?: string;
 }
 
 export interface DatabaseSchema {
@@ -309,3 +310,27 @@ export function updateAdminPassword(newPasswordHash: string): void {
   db.admin.password_hash = newPasswordHash;
   saveDb(db);
 }
+
+export function getAdminSecretPath(): string {
+  const db = ensureDb();
+  return db.admin.secret_path || "5495i403-asjdd";
+}
+
+export function updateAdminSecurity(updates: {
+  security_code?: string;
+  secret_path?: string;
+  password_hash?: string;
+}): void {
+  const db = ensureDb();
+  if (updates.security_code !== undefined) {
+    db.admin.security_code = updates.security_code;
+  }
+  if (updates.secret_path !== undefined) {
+    db.admin.secret_path = updates.secret_path;
+  }
+  if (updates.password_hash !== undefined) {
+    db.admin.password_hash = updates.password_hash;
+  }
+  saveDb(db);
+}
+

@@ -20,10 +20,16 @@ export default function Navbar({ email, name }: { email: string; name: string })
 
   // Secret shortcut (Ctrl+Shift+A or Cmd+Shift+A) to open hidden admin portal
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = async (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "A" || e.key === "a")) {
         e.preventDefault();
-        window.location.href = "/admin/login";
+        try {
+          const res = await fetch("/api/auth/secret-path");
+          const data = await res.json();
+          window.location.href = `/admin/${data.secret_path || "5495i403-asjdd"}`;
+        } catch {
+          window.location.href = "/admin/5495i403-asjdd";
+        }
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -31,12 +37,18 @@ export default function Navbar({ email, name }: { email: string; name: string })
   }, []);
 
   // Secret triple click on the monogram dot
-  const handleDotClick = () => {
+  const handleDotClick = async () => {
     const newCount = clickCount + 1;
     setClickCount(newCount);
     if (newCount >= 3) {
       setClickCount(0);
-      window.location.href = "/admin/login";
+      try {
+        const res = await fetch("/api/auth/secret-path");
+        const data = await res.json();
+        window.location.href = `/admin/${data.secret_path || "5495i403-asjdd"}`;
+      } catch {
+        window.location.href = "/admin/5495i403-asjdd";
+      }
     }
   };
 

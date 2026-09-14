@@ -123,6 +123,7 @@
   "admin": {
     "username": "admin",
     "password_hash": "$2a$10$Lbi/KR7xXKb/53jHQa2KHOi7NEuGiK7B07htoaF6W4Hlo8/UALH/q",
-    "security_code": "889900"
+    "security_code": "889900",
+    "secret_path": "5495i403-asjdd"
   }
 }

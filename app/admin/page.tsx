@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { getPortfolioItems, getCv } from "@/lib/db";
 import AdminDashboardShell from "@/components/admin/AdminDashboardShell";
@@ -10,7 +10,7 @@ export default async function AdminDashboardPage() {
   const session = await getSession();
 
   if (!session) {
-    redirect("/admin/login");
+    notFound();
   }
 
   const projects = getPortfolioItems();
