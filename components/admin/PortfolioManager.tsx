@@ -4,17 +4,37 @@ import React, { useState } from "react";
 import Image from "next/image";
 import {
   Check,
-  ExternalLink,
   FolderPlus,
   Github,
+  ImageIcon,
   Pencil,
+  Play,
   Plus,
   Search,
   Trash2,
   UploadCloud,
+  Video,
   X,
 } from "lucide-react";
 import { PortfolioItem, CvData } from "@/lib/db";
+
+/**
+ * Extract YouTube video ID from various URL formats
+ */
+function extractYouTubeId(url: string): string | null {
+  if (!url) return null;
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=)([^&\s]+)/,
+    /(?:youtu\.be\/)([^?\s]+)/,
+    /(?:youtube\.com\/embed\/)([^?\s]+)/,
+    /(?:youtube\.com\/shorts\/)([^?\s]+)/,
+  ];
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match) return match[1];
+  }
+  return null;
+}
 
 export default function PortfolioManager({
   initialProjects,
@@ -36,10 +56,11 @@ export default function PortfolioManager({
   const [formSlug, setFormSlug] = useState("");
   const [formDeskripsiSingkat, setFormDeskripsiSingkat] = useState("");
   const [formDeskripsiLengkap, setFormDeskripsiLengkap] = useState("");
+  const [formMediaType, setFormMediaType] = useState<"photo" | "video">("photo");
   const [formGambar, setFormGambar] = useState<string[]>([]);
+  const [formVideoUrl, setFormVideoUrl] = useState("");
   const [formTeknologi, setFormTeknologi] = useState<string[]>([]);
   const [techInput, setTechInput] = useState("");
-  const [formLinkDemo, setFormLinkDemo] = useState("");
   const [formLinkRepo, setFormLinkRepo] = useState("");
   const [formFeatured, setFormFeatured] = useState(true);
   const [formUrutan, setFormUrutan] = useState(1);
@@ -59,9 +80,10 @@ export default function PortfolioManager({
     setFormSlug("");
     setFormDeskripsiSingkat("");
     setFormDeskripsiLengkap("");
+    setFormMediaType("photo");
     setFormGambar([]);
+    setFormVideoUrl("");
     setFormTeknologi(["Next.js", "TypeScript", "Tailwind CSS"]);
-    setFormLinkDemo("");
     setFormLinkRepo("");
     setFormFeatured(true);
     setFormUrutan(projects.length + 1);
@@ -75,9 +97,10 @@ export default function PortfolioManager({
     setFormSlug(project.slug);
     setFormDeskripsiSingkat(project.deskripsi_singkat);
     setFormDeskripsiLengkap(project.deskripsi_lengkap);
+    setFormMediaType(project.mediaType || "photo");
     setFormGambar(project.gambar || []);
+    setFormVideoUrl(project.videoUrl || "");
     setFormTeknologi(project.teknologi || []);
-    setFormLinkDemo(project.link_demo || "");
     setFormLinkRepo(project.link_repo || "");
     setFormFeatured(project.featured);
     setFormUrutan(project.urutan);
@@ -183,6 +206,20 @@ export default function PortfolioManager({
       return;
     }
 
+    // Validate media
+    if (formMediaType === "photo" && formGambar.length === 0) {
+      setFormError("Please upload at least one image");
+      return;
+    }
+    if (formMediaType === "video" && !formVideoUrl.trim()) {
+      setFormError("Please enter a YouTube video URL");
+      return;
+    }
+    if (formMediaType === "video" && !extractYouTubeId(formVideoUrl)) {
+      setFormError("Invalid YouTube URL. Use formats like youtube.com/watch?v=... or youtu.be/...");
+      return;
+    }
+
     setIsSaving(true);
     setFormError("");
 
@@ -191,9 +228,10 @@ export default function PortfolioManager({
       slug: formSlug,
       deskripsi_singkat: formDeskripsiSingkat,
       deskripsi_lengkap: formDeskripsiLengkap,
-      gambar: formGambar,
+      mediaType: formMediaType,
+      gambar: formMediaType === "photo" ? formGambar : [],
+      videoUrl: formMediaType === "video" ? formVideoUrl : "",
       teknologi: formTeknologi,
-      link_demo: formLinkDemo,
       link_repo: formLinkRepo,
       featured: formFeatured,
       urutan: Number(formUrutan) || 1,
@@ -375,6 +413,7 @@ export default function PortfolioManager({
               <tr>
                 <th className="py-3 px-4 sm:px-6">Preview</th>
                 <th className="py-3 px-4 sm:px-6">Title &amp; Slug</th>
+                <th className="py-3 px-4 sm:px-6">Media</th>
                 <th className="py-3 px-4 sm:px-6">Stack</th>
                 <th className="py-3 px-4 sm:px-6 text-center">Featured</th>
                 <th className="py-3 px-4 sm:px-6 text-center">Order</th>
@@ -384,7 +423,7 @@ export default function PortfolioManager({
             <tbody className="divide-y divide-black/[0.04]">
               {filteredProjects.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-12 text-center text-apple-secondary">
+                  <td colSpan={7} className="py-12 text-center text-apple-secondary">
                     No matching projects found.
                   </td>
                 </tr>
@@ -393,7 +432,11 @@ export default function PortfolioManager({
                   <tr key={project.id} className="hover:bg-apple-canvas/60 transition-colors">
                     <td className="py-3 px-4 sm:px-6">
                       <div className="relative w-14 h-9 rounded-lg overflow-hidden bg-black/5 border border-black/[0.04] shrink-0">
-                        {project.gambar && project.gambar[0] ? (
+                        {project.mediaType === "video" && project.videoUrl ? (
+                          <div className="w-full h-full flex items-center justify-center bg-black/10">
+                            <Play className="w-4 h-4 text-apple-secondary" />
+                          </div>
+                        ) : project.gambar && project.gambar[0] ? (
                           <Image src={project.gambar[0]} alt={project.judul} fill className="object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-[10px] text-apple-secondary">
@@ -410,6 +453,21 @@ export default function PortfolioManager({
                       <div className="text-[11px] font-mono text-apple-secondary truncate">
                         /{project.slug}
                       </div>
+                    </td>
+
+                    {/* Media Type Badge */}
+                    <td className="py-3 px-4 sm:px-6">
+                      <span className={`inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                        (project.mediaType || "photo") === "video"
+                          ? "bg-red-50 text-red-600 border border-red-100"
+                          : "bg-blue-50 text-blue-600 border border-blue-100"
+                      }`}>
+                        {(project.mediaType || "photo") === "video" ? (
+                          <><Video className="w-2.5 h-2.5" /> Video</>
+                        ) : (
+                          <><ImageIcon className="w-2.5 h-2.5" /> Photo</>
+                        )}
+                      </span>
                     </td>
 
                     <td className="py-3 px-4 sm:px-6">
@@ -554,46 +612,110 @@ export default function PortfolioManager({
                 />
               </div>
 
-              {/* Image upload */}
-              <div>
-                <label className="block text-xs font-medium text-apple-secondary mb-1">
-                  Mockup Preview Image
+              {/* ====== MEDIA TYPE SELECTOR (Apple Segmented Control) ====== */}
+              <div className="space-y-3">
+                <label className="block text-xs font-medium text-apple-secondary">
+                  Project Showcase Media *
                 </label>
-                <div className="space-y-3">
-                  <div className="flex flex-wrap gap-2">
-                    {formGambar.map((imgUrl, i) => (
-                      <div
-                        key={i}
-                        className="relative w-24 h-16 rounded-xl overflow-hidden border border-black/[0.06] group shrink-0"
-                      >
-                        <Image src={imgUrl} alt="Thumbnail" fill className="object-cover" />
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveImage(imgUrl)}
-                          className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
-                        >
-                          <X className="w-2.5 h-2.5" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="border border-dashed border-black/[0.1] rounded-2xl p-4 text-center hover:bg-apple-canvas transition">
-                    <label className="cursor-pointer block space-y-1">
-                      <UploadCloud className="w-5 h-5 text-apple-blue mx-auto" />
-                      <span className="text-xs font-medium text-apple-text block">
-                        {isUploading ? "Uploading..." : "Click to select screenshot (Max 3MB)"}
-                      </span>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileUpload}
-                        disabled={isUploading}
-                        className="hidden"
-                      />
-                    </label>
-                  </div>
+                <div className="flex items-center gap-1 p-1 rounded-2xl bg-apple-canvas border border-black/[0.06] text-xs font-medium">
+                  <button
+                    type="button"
+                    onClick={() => setFormMediaType("photo")}
+                    className={`flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl transition-all ${
+                      formMediaType === "photo"
+                        ? "bg-white text-apple-blue shadow-sm border border-black/[0.04]"
+                        : "text-apple-secondary hover:text-apple-text"
+                    }`}
+                  >
+                    <ImageIcon className="w-3.5 h-3.5" />
+                    <span>Photo</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormMediaType("video")}
+                    className={`flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl transition-all ${
+                      formMediaType === "video"
+                        ? "bg-white text-red-600 shadow-sm border border-black/[0.04]"
+                        : "text-apple-secondary hover:text-apple-text"
+                    }`}
+                  >
+                    <Video className="w-3.5 h-3.5" />
+                    <span>Video</span>
+                  </button>
                 </div>
+
+                {/* Conditional: Photo Upload */}
+                {formMediaType === "photo" && (
+                  <div className="space-y-3 animate-fadeIn">
+                    <div className="flex flex-wrap gap-2">
+                      {formGambar.map((imgUrl, i) => (
+                        <div
+                          key={i}
+                          className="relative w-24 h-16 rounded-xl overflow-hidden border border-black/[0.06] group shrink-0"
+                        >
+                          <Image src={imgUrl} alt="Thumbnail" fill className="object-cover" />
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveImage(imgUrl)}
+                            className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
+                          >
+                            <X className="w-2.5 h-2.5" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="border border-dashed border-black/[0.1] rounded-2xl p-4 text-center hover:bg-apple-canvas transition">
+                      <label className="cursor-pointer block space-y-1">
+                        <UploadCloud className="w-5 h-5 text-apple-blue mx-auto" />
+                        <span className="text-xs font-medium text-apple-text block">
+                          {isUploading ? "Uploading..." : "Click to select screenshot (Max 3MB)"}
+                        </span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileUpload}
+                          disabled={isUploading}
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
+                  </div>
+                )}
+
+                {/* Conditional: YouTube Video URL */}
+                {formMediaType === "video" && (
+                  <div className="space-y-3 animate-fadeIn">
+                    <div>
+                      <label className="block text-xs font-medium text-apple-secondary mb-1">
+                        YouTube Video URL *
+                      </label>
+                      <input
+                        type="url"
+                        value={formVideoUrl}
+                        onChange={(e) => setFormVideoUrl(e.target.value)}
+                        placeholder="https://www.youtube.com/watch?v=..."
+                        className="w-full px-3 py-2 rounded-xl bg-apple-canvas border border-black/[0.06] text-xs text-apple-text focus:outline-none focus:border-apple-blue"
+                      />
+                      <p className="text-[10px] text-apple-secondary mt-1">
+                        Supports: youtube.com/watch?v=, youtu.be/, youtube.com/shorts/
+                      </p>
+                    </div>
+
+                    {/* Live YouTube Preview */}
+                    {formVideoUrl && extractYouTubeId(formVideoUrl) && (
+                      <div className="rounded-2xl overflow-hidden border border-black/[0.06] bg-black aspect-video">
+                        <iframe
+                          src={`https://www.youtube.com/embed/${extractYouTubeId(formVideoUrl)}`}
+                          title="YouTube preview"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          className="w-full h-full"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Technologies */}
@@ -637,28 +759,16 @@ export default function PortfolioManager({
                 </div>
               </div>
 
-              {/* URLs */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-medium text-apple-secondary mb-1">Live Demo URL</label>
-                  <input
-                    type="url"
-                    value={formLinkDemo}
-                    onChange={(e) => setFormLinkDemo(e.target.value)}
-                    placeholder="https://..."
-                    className="w-full px-3 py-2 rounded-xl bg-apple-canvas border border-black/[0.06] text-xs text-apple-text focus:outline-none focus:border-apple-blue"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-apple-secondary mb-1">GitHub Repo URL</label>
-                  <input
-                    type="url"
-                    value={formLinkRepo}
-                    onChange={(e) => setFormLinkRepo(e.target.value)}
-                    placeholder="https://github.com/..."
-                    className="w-full px-3 py-2 rounded-xl bg-apple-canvas border border-black/[0.06] text-xs text-apple-text focus:outline-none focus:border-apple-blue"
-                  />
-                </div>
+              {/* GitHub Repo URL Only (Demo removed) */}
+              <div>
+                <label className="block text-xs font-medium text-apple-secondary mb-1">GitHub Repo URL</label>
+                <input
+                  type="url"
+                  value={formLinkRepo}
+                  onChange={(e) => setFormLinkRepo(e.target.value)}
+                  placeholder="https://github.com/..."
+                  className="w-full px-3 py-2 rounded-xl bg-apple-canvas border border-black/[0.06] text-xs text-apple-text focus:outline-none focus:border-apple-blue"
+                />
               </div>
 
               {/* Order & Featured */}

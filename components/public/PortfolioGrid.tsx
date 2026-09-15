@@ -2,8 +2,26 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { ChevronRight, ExternalLink, Github, X } from "lucide-react";
+import { ChevronRight, Github, Play, X } from "lucide-react";
 import { PortfolioItem } from "@/lib/db";
+
+/**
+ * Extract YouTube video ID from various URL formats
+ */
+function extractYouTubeId(url: string): string | null {
+  if (!url) return null;
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=)([^&\s]+)/,
+    /(?:youtu\.be\/)([^?\s]+)/,
+    /(?:youtube\.com\/embed\/)([^?\s]+)/,
+    /(?:youtube\.com\/shorts\/)([^?\s]+)/,
+  ];
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match) return match[1];
+  }
+  return null;
+}
 
 export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] }) {
   const [selectedProject, setSelectedProject] = useState<PortfolioItem | null>(null);
@@ -32,12 +50,30 @@ export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] 
               key={project.id}
               className="group flex flex-col bg-apple-canvas rounded-[24px] border border-black/[0.06] overflow-hidden transition-all duration-300 hover:shadow-apple-hover hover:-translate-y-1"
             >
-              {/* Card Image Area */}
+              {/* Card Media Area — Photo or Video Thumbnail */}
               <div
                 onClick={() => setSelectedProject(project)}
                 className="relative aspect-[16/10] w-full bg-black/5 overflow-hidden cursor-pointer"
               >
-                {project.gambar && project.gambar.length > 0 ? (
+                {(project.mediaType || "photo") === "video" && project.videoUrl ? (
+                  // YouTube Thumbnail with Play overlay
+                  <>
+                    {extractYouTubeId(project.videoUrl) && (
+                      <Image
+                        src={`https://img.youtube.com/vi/${extractYouTubeId(project.videoUrl)}/hqdefault.jpg`}
+                        alt={project.judul}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover object-center group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+                      />
+                    )}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+                      <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                        <Play className="w-5 h-5 text-red-600 ml-0.5" />
+                      </div>
+                    </div>
+                  </>
+                ) : project.gambar && project.gambar.length > 0 ? (
                   <Image
                     src={project.gambar[0]}
                     alt={project.judul}
@@ -98,17 +134,6 @@ export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] 
                   </button>
 
                   <div className="flex items-center gap-3">
-                    {project.link_demo && (
-                      <a
-                        href={project.link_demo}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-apple-secondary hover:text-apple-text transition-colors flex items-center gap-1 font-medium"
-                      >
-                        <span>Demo</span>
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
-                    )}
                     {project.link_repo && (
                       <a
                         href={project.link_repo}
@@ -130,7 +155,7 @@ export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] 
 
       </div>
 
-      {/* Apple Sheet Modal */}
+      {/* Apple Sheet Modal — Detail View */}
       {selectedProject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md animate-fadeIn">
           <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-apple-card rounded-[28px] border border-black/[0.08] shadow-apple-float p-6 sm:p-8">
@@ -163,8 +188,18 @@ export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] 
                 {selectedProject.judul}
               </h3>
 
-              {/* Image Preview */}
-              {selectedProject.gambar && selectedProject.gambar.length > 0 && (
+              {/* Media Preview — Photo or Embedded YouTube */}
+              {(selectedProject.mediaType || "photo") === "video" && selectedProject.videoUrl && extractYouTubeId(selectedProject.videoUrl) ? (
+                <div className="relative aspect-video w-full rounded-[20px] overflow-hidden bg-black border border-black/[0.06]">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${extractYouTubeId(selectedProject.videoUrl)}?rel=0`}
+                    title={selectedProject.judul}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full"
+                  />
+                </div>
+              ) : selectedProject.gambar && selectedProject.gambar.length > 0 ? (
                 <div className="relative aspect-[16/9] w-full rounded-[20px] overflow-hidden bg-apple-canvas border border-black/[0.06]">
                   <Image
                     src={selectedProject.gambar[0]}
@@ -174,7 +209,7 @@ export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] 
                     className="object-cover object-top"
                   />
                 </div>
-              )}
+              ) : null}
 
               {/* Full Description */}
               <div className="text-sm text-apple-secondary leading-relaxed whitespace-pre-line">
@@ -184,17 +219,6 @@ export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] 
               {/* Modal Actions in Apple Pill Style */}
               <div className="pt-6 border-t border-black/[0.06] flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  {selectedProject.link_demo && (
-                    <a
-                      href={selectedProject.link_demo}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-apple-blue hover:bg-apple-blue-hover text-white font-medium text-xs transition shadow-sm"
-                    >
-                      <span>Open Live Demo</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
-                  )}
                   {selectedProject.link_repo && (
                     <a
                       href={selectedProject.link_repo}
