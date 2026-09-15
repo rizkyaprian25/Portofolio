@@ -49,3 +49,16 @@ ehthumbs.db
 # Uploaded user files (local uploads)
 /public/uploads/*
 !/public/uploads/.gitkeep
+
+# AI Workflows, PRD, and Design Documents
+PRD.md
+DESIGN.md
+*.prompt.md
+*.ai.md
+.agents/
+.gemini/
+.claude/
+.cursor/
+.windsurf/
+.system_generated/
+

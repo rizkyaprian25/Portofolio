@@ -19,17 +19,25 @@ export default function Navbar({ email, name }: { email: string; name: string })
   }, []);
 
   // Secret shortcut (Ctrl+Shift+A or Cmd+Shift+A) to open hidden admin portal
+  const openSecretAdmin = () => {
+    const saved = localStorage.getItem("adm_p_key");
+    if (saved) {
+      window.location.href = `/admin/${saved}`;
+      return;
+    }
+    const input = window.prompt("Apple Security: Masukkan Kode Akses Admin (URL Slug)");
+    if (input && input.trim()) {
+      const slug = input.trim().toLowerCase().replace(/[^a-z0-9_-]/g, "");
+      localStorage.setItem("adm_p_key", slug);
+      window.location.href = `/admin/${slug}`;
+    }
+  };
+
   useEffect(() => {
-    const handleKeyDown = async (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "A" || e.key === "a")) {
         e.preventDefault();
-        try {
-          const res = await fetch("/api/auth/secret-path");
-          const data = await res.json();
-          window.location.href = `/admin/${data.secret_path || "5495i403-asjdd"}`;
-        } catch {
-          window.location.href = "/admin/5495i403-asjdd";
-        }
+        openSecretAdmin();
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -37,18 +45,12 @@ export default function Navbar({ email, name }: { email: string; name: string })
   }, []);
 
   // Secret triple click on the monogram dot
-  const handleDotClick = async () => {
+  const handleDotClick = () => {
     const newCount = clickCount + 1;
     setClickCount(newCount);
     if (newCount >= 3) {
       setClickCount(0);
-      try {
-        const res = await fetch("/api/auth/secret-path");
-        const data = await res.json();
-        window.location.href = `/admin/${data.secret_path || "5495i403-asjdd"}`;
-      } catch {
-        window.location.href = "/admin/5495i403-asjdd";
-      }
+      openSecretAdmin();
     }
   };
 

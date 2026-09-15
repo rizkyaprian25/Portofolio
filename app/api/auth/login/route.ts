@@ -1,9 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import { authenticate, createToken, COOKIE_NAME } from "@/lib/auth";
 import { getAdminUser } from "@/lib/db";
+import { checkRateLimit, resetRateLimit } from "@/lib/rateLimit";
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "local_client";
+    
+    // Check rate limit: max 5 failed attempts per 15 mins
+    const limit = checkRateLimit(ip, 5, 15 * 60 * 1000);
+    if (!limit.allowed) {
+      return NextResponse.json(
+        {
+          error: `Terlalu banyak percobaan gagal. Akses ditangguhkan selama ${Math.ceil(
+            limit.retryAfterSec / 60
+          )} menit demi keamanan.`,
+        },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
     const { username, password, security_code, action } = body;
     const admin = getAdminUser();
@@ -14,7 +30,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ success: true, message: "Kode keamanan valid" });
       }
       return NextResponse.json(
-        { error: "Kode Akses Keamanan (Passcode) tidak valid" },
+        { error: `Kode Akses Keamanan Salah. Sisa percobaan: ${limit.remaining}` },
         { status: 401 }
       );
     }
@@ -43,6 +59,7 @@ export async function POST(req: NextRequest) {
     }
 
     const token = createToken({ username: admin.username, role: "admin" });
+    resetRateLimit(ip);
 
     const response = NextResponse.json({ success: true, message: "Login berhasil" });
     response.cookies.set({
