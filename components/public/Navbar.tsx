@@ -79,16 +79,16 @@ export default function Navbar({ email, name }: { email: string; name: string })
 
         {/* Apple Style Minimalist Center Nav */}
         <nav className="hidden md:flex items-center gap-7 text-apple-secondary font-normal">
-          <Link href="#overview" className="hover:text-apple-text transition-colors">
+          <Link href="/#overview" className="hover:text-apple-text transition-colors">
             Overview
           </Link>
-          <Link href="#work" className="hover:text-apple-text transition-colors">
+          <Link href="/projects" className="hover:text-apple-text transition-colors">
             Projects
           </Link>
-          <Link href="#craft" className="hover:text-apple-text transition-colors">
+          <Link href="/#craft" className="hover:text-apple-text transition-colors">
             Craft &amp; Philosophy
           </Link>
-          <Link href="#resume" className="hover:text-apple-text transition-colors">
+          <Link href="/#resume" className="hover:text-apple-text transition-colors">
             Resume
           </Link>
         </nav>
@@ -96,7 +96,7 @@ export default function Navbar({ email, name }: { email: string; name: string })
         {/* Right CTA Actions (Admin link completely hidden from front) */}
         <div className="hidden md:flex items-center gap-3">
           <Link
-            href="#contact"
+            href="/#contact"
             className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-apple-blue hover:bg-apple-blue-hover text-white font-medium text-xs transition-all shadow-sm active:scale-95"
           >
             <span>Contact</span>
@@ -118,28 +118,28 @@ export default function Navbar({ email, name }: { email: string; name: string })
       {mobileMenuOpen && (
         <div className="md:hidden apple-glass border-b border-black/[0.08] px-6 py-4 space-y-3">
           <Link
-            href="#overview"
+            href="/#overview"
             onClick={() => setMobileMenuOpen(false)}
             className="block text-sm text-apple-secondary hover:text-apple-text py-1"
           >
             Overview
           </Link>
           <Link
-            href="#work"
+            href="/projects"
             onClick={() => setMobileMenuOpen(false)}
             className="block text-sm text-apple-secondary hover:text-apple-text py-1"
           >
             Projects
           </Link>
           <Link
-            href="#craft"
+            href="/#craft"
             onClick={() => setMobileMenuOpen(false)}
             className="block text-sm text-apple-secondary hover:text-apple-text py-1"
           >
             Craft &amp; Philosophy
           </Link>
           <Link
-            href="#resume"
+            href="/#resume"
             onClick={() => setMobileMenuOpen(false)}
             className="block text-sm text-apple-secondary hover:text-apple-text py-1"
           >
@@ -147,7 +147,7 @@ export default function Navbar({ email, name }: { email: string; name: string })
           </Link>
           <div className="pt-3 border-t border-black/[0.06] flex items-center justify-end">
             <Link
-              href="#contact"
+              href="/#contact"
               onClick={() => setMobileMenuOpen(false)}
               className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-apple-blue text-white font-medium text-xs"
             >

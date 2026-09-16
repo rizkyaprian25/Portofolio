@@ -19,7 +19,7 @@ export default function HomePage() {
       <Navbar email={profile.email} name={profile.nama} />
       <main className="flex-1">
         <Hero profile={profile} cvUrl={cv.file_url} />
-        <PortfolioGrid projects={portfolio} />
+        <PortfolioGrid projects={portfolio} limit={3} showViewAll={true} />
         <AboutSkills profile={profile} />
         <CvSection cv={cv} />
       </main>

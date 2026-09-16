@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Muhamad Rizky Aprian — Web & Mobile Developer, AI Enthusiast",
+  title: "Muhamad Rizky Aprian",
   description: "Portofolio profesional Muhamad Rizky Aprian. Web & Mobile Developer serta AI Enthusiast berfokus pada arsitektur web modern (Next.js, TypeScript), aplikasi mobile, dan adopsi Artificial Narrow Intelligence (ANI) agentic tools.",
   keywords: [
     "Muhamad Rizky Aprian",
