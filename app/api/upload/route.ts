@@ -17,9 +17,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Tidak ada file yang diunggah" }, { status: 400 });
     }
 
-    // Validation: Image (max 3MB) or PDF (max 5MB)
-    const allowedTypes = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
-    if (!allowedTypes.includes(file.type)) {
+    // Strict MIME-Type validation and extension whitelist
+    const MIME_EXTENSION_MAP: Record<string, string> = {
+      "image/jpeg": ".jpg",
+      "image/png": ".png",
+      "image/webp": ".webp",
+      "application/pdf": ".pdf",
+    };
+
+    const safeExt = MIME_EXTENSION_MAP[file.type];
+    if (!safeExt) {
       return NextResponse.json(
         { error: "Tipe file tidak didukung (hanya JPG, PNG, WEBP, dan PDF)" },
         { status: 400 }
@@ -42,8 +49,7 @@ export async function POST(req: NextRequest) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
 
-    const ext = path.extname(file.name) || (file.type === "application/pdf" ? ".pdf" : ".jpg");
-    const safeName = `${Date.now()}-${Math.random().toString(36).substring(2, 8)}${ext}`;
+    const safeName = `${Date.now()}-${Math.random().toString(36).substring(2, 8)}${safeExt}`;
     const filePath = path.join(uploadDir, safeName);
 
     fs.writeFileSync(filePath, buffer);

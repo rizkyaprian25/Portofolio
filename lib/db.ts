@@ -212,7 +212,10 @@ function saveDb(data: DatabaseSchema): void {
   if (!fs.existsSync(DATA_DIR)) {
     fs.mkdirSync(DATA_DIR, { recursive: true });
   }
-  fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), "utf-8");
+  const tempFile = path.join(DATA_DIR, `database.${Date.now()}.${Math.random().toString(36).substring(2, 8)}.tmp`);
+  const content = JSON.stringify(data, null, 2);
+  fs.writeFileSync(tempFile, content, "utf-8");
+  fs.renameSync(tempFile, DB_FILE);
 }
 
 // Profile CRUD

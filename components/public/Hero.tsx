@@ -1,8 +1,13 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight, MapPin, Sparkles } from "lucide-react";
+import { ChevronRight, Clock, Eye, MapPin, Sparkles } from "lucide-react";
 import { Profile } from "@/lib/db";
+import { playClickSound, playPopSound } from "@/lib/audio";
+import { openCvQuickLook } from "./CvQuickLookModal";
+import SpotlightCard from "./SpotlightCard";
 
 function getStatusIndicator(status: string) {
   const s = (status || "").toLowerCase();
@@ -20,6 +25,23 @@ function getStatusIndicator(status: string) {
 
 export default function Hero({ profile, cvUrl }: { profile: Profile; cvUrl: string }) {
   const statusInfo = getStatusIndicator(profile.status_ketersediaan);
+  const [localTime, setLocalTime] = useState<string>("");
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString("id-ID", {
+        timeZone: "Asia/Jakarta",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+      setLocalTime(`${timeString} WIB`);
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <section id="overview" className="relative pt-10 pb-16 md:pt-16 md:pb-24 overflow-hidden">
@@ -30,10 +52,19 @@ export default function Hero({ profile, cvUrl }: { profile: Profile; cvUrl: stri
           {/* Left Column: Name, Headline, Bio, ANI Stack, CTAs */}
           <div className="lg:col-span-7 space-y-6 text-left">
             
-            {/* Availability Capsule */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-black/[0.08] shadow-[0_1px_2px_rgba(0,0,0,0.04)] text-xs font-medium text-apple-text">
-              <span className={`w-2 h-2 rounded-full ${statusInfo.dotColor} ${statusInfo.pulse ? "animate-pulse" : ""}`} />
-              <span>{profile.status_ketersediaan}</span>
+            {/* Availability & Live Clock Capsule */}
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white dark:bg-apple-card-dark border border-black/[0.08] dark:border-white/[0.08] shadow-[0_1px_2px_rgba(0,0,0,0.04)] text-xs font-medium text-apple-text dark:text-apple-text-dark">
+                <span className={`w-2 h-2 rounded-full ${statusInfo.dotColor} ${statusInfo.pulse ? "animate-pulse" : ""}`} />
+                <span>{profile.status_ketersediaan}</span>
+              </div>
+
+              {localTime && (
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/5 border border-black/[0.04] dark:border-white/[0.06] text-xs font-medium text-apple-secondary dark:text-apple-secondary-dark">
+                  <Clock className="w-3 h-3 text-apple-blue" />
+                  <span>{localTime} (UTC+7)</span>
+                </div>
+              )}
             </div>
 
             {/* Apple Confident Typography */}
@@ -42,72 +73,87 @@ export default function Hero({ profile, cvUrl }: { profile: Profile; cvUrl: stri
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Web &amp; Mobile Developer · AI Enthusiast</span>
               </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-apple-text leading-[1.08]">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-apple-text dark:text-apple-text-dark leading-[1.08]">
                 {profile.nama}
               </h1>
             </div>
 
             {/* Subtitle / Bio */}
-            <p className="text-base sm:text-lg text-apple-secondary font-normal leading-relaxed">
+            <p className="text-base sm:text-lg text-apple-secondary dark:text-apple-secondary-dark font-normal leading-relaxed">
               {profile.bio}
             </p>
 
             {/* ANI & Agentic Engineering Focus Card */}
-            <div className="p-4 rounded-2xl bg-white border border-black/[0.06] shadow-apple-card space-y-2.5">
-              <div className="flex items-center justify-between text-xs font-semibold text-apple-text">
+            <SpotlightCard className="p-4 rounded-2xl bg-white dark:bg-apple-card-dark border border-black/[0.06] dark:border-white/[0.08] shadow-apple-card space-y-2.5">
+              <div className="flex items-center justify-between text-xs font-semibold text-apple-text dark:text-apple-text-dark">
                 <span className="uppercase tracking-wider">Artificial Narrow Intelligence (ANI) Stack</span>
-                <span className="text-[11px] font-normal text-apple-secondary">Agentic Dev Tools</span>
+                <span className="text-[11px] font-normal text-apple-secondary dark:text-apple-secondary-dark">Agentic Dev Tools</span>
               </div>
-              <p className="text-xs text-apple-secondary leading-relaxed">
+              <p className="text-xs text-apple-secondary dark:text-apple-secondary-dark leading-relaxed">
                 Memadukan rekayasa aplikasi Web &amp; Mobile modern dengan akselerasi agen coding cerdas Artificial Narrow Intelligence (ANI):
               </p>
               <div className="flex flex-wrap gap-1.5 pt-0.5">
-                <span className="text-xs font-medium px-3 py-1 rounded-full bg-apple-blue/10 text-apple-blue border border-apple-blue/20">
+                <span className="text-xs font-medium px-3 py-1 rounded-full bg-apple-blue/10 dark:bg-apple-blue/20 text-apple-blue border border-apple-blue/20">
                   Google Antigravity AI
                 </span>
-                <span className="text-xs font-medium px-3 py-1 rounded-full bg-apple-purple/10 text-apple-purple border border-apple-purple/20">
+                <span className="text-xs font-medium px-3 py-1 rounded-full bg-apple-purple/10 dark:bg-apple-purple/20 text-apple-purple border border-apple-purple/20">
                   Claude Code
                 </span>
-                <span className="text-xs font-medium px-3 py-1 rounded-full bg-apple-green/10 text-apple-green border border-apple-green/20">
+                <span className="text-xs font-medium px-3 py-1 rounded-full bg-apple-green/10 dark:bg-apple-green/20 text-apple-green border border-apple-green/20">
                   OpenCode
                 </span>
-                <span className="text-xs font-medium px-3 py-1 rounded-full bg-black/[0.04] text-apple-text border border-black/[0.06]">
+                <span className="text-xs font-medium px-3 py-1 rounded-full bg-black/[0.04] dark:bg-white/10 text-apple-text dark:text-apple-text-dark border border-black/[0.06] dark:border-white/10">
                   Flutter
                 </span>
-                <span className="text-xs font-medium px-3 py-1 rounded-full bg-black/[0.04] text-apple-text border border-black/[0.06]">
+                <span className="text-xs font-medium px-3 py-1 rounded-full bg-black/[0.04] dark:bg-white/10 text-apple-text dark:text-apple-text-dark border border-black/[0.06] dark:border-white/10">
                   React Native / Mobile
                 </span>
-                <span className="text-xs font-medium px-3 py-1 rounded-full bg-black/[0.04] text-apple-text border border-black/[0.06]">
+                <span className="text-xs font-medium px-3 py-1 rounded-full bg-black/[0.04] dark:bg-white/10 text-apple-text dark:text-apple-text-dark border border-black/[0.06] dark:border-white/10">
                   Next.js 14
                 </span>
-                <span className="text-xs font-medium px-3 py-1 rounded-full bg-black/[0.04] text-apple-text border border-black/[0.06]">
+                <span className="text-xs font-medium px-3 py-1 rounded-full bg-black/[0.04] dark:bg-white/10 text-apple-text dark:text-apple-text-dark border border-black/[0.06] dark:border-white/10">
                   TypeScript
                 </span>
               </div>
-            </div>
+            </SpotlightCard>
 
             {/* Apple Style CTAs */}
-            <div className="pt-2 flex flex-wrap items-center gap-4 text-sm font-medium">
+            <div className="pt-2 flex flex-wrap items-center gap-3 text-sm font-medium">
               <Link
                 href="#work"
+                onClick={() => playPopSound()}
                 className="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-apple-blue hover:bg-apple-blue-hover text-white transition-all shadow-sm active:scale-95"
               >
                 <span>Lihat Karya &amp; Proyek</span>
               </Link>
 
+              {/* QuickLook CV Preview Trigger */}
+              <button
+                type="button"
+                onClick={() => {
+                  playClickSound();
+                  openCvQuickLook();
+                }}
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-black/[0.04] dark:bg-white/10 hover:bg-black/[0.08] dark:hover:bg-white/15 text-apple-text dark:text-apple-text-dark border border-black/[0.06] dark:border-white/10 transition"
+              >
+                <Eye className="w-3.5 h-3.5 text-apple-blue" />
+                <span>Preview CV</span>
+              </button>
+
               <a
                 href={cvUrl}
                 download
-                className="inline-flex items-center gap-1 text-apple-blue hover:underline py-2.5 px-2 transition-all group"
+                onClick={() => playClickSound()}
+                className="inline-flex items-center gap-1 text-apple-blue hover:underline py-2.5 px-2 transition-all group text-xs sm:text-sm"
               >
-                <span>Unduh Curriculum Vitae</span>
+                <span>Unduh File CV</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </a>
             </div>
 
             {/* Subtext Location */}
-            <div className="pt-1 flex items-center gap-1.5 text-xs text-apple-secondary">
-              <MapPin className="w-3.5 h-3.5 text-apple-secondary" />
+            <div className="pt-1 flex items-center gap-1.5 text-xs text-apple-secondary dark:text-apple-secondary-dark">
+              <MapPin className="w-3.5 h-3.5 text-apple-secondary dark:text-apple-secondary-dark" />
               <span>Berbasis di {profile.lokasi} · Siap Bekerja Remote &amp; Hybrid</span>
             </div>
 
@@ -118,10 +164,10 @@ export default function Hero({ profile, cvUrl }: { profile: Profile; cvUrl: stri
             <div className="relative max-w-sm mx-auto">
               
               {/* Main Studio Frame */}
-              <div className="relative rounded-[32px] overflow-hidden bg-white border border-black/[0.08] shadow-[0_20px_50px_rgba(0,0,0,0.08)] p-3 transition-transform duration-500 hover:shadow-[0_25px_60px_rgba(0,0,0,0.12)]">
+              <div className="relative rounded-[32px] overflow-hidden bg-white dark:bg-apple-card-dark border border-black/[0.08] dark:border-white/[0.1] shadow-[0_20px_50px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] p-3 transition-transform duration-500 hover:shadow-[0_25px_60px_rgba(0,0,0,0.12)]">
                 
                 {/* 3:4 Portrait container tailored for Profil.jpeg */}
-                <div className="relative aspect-[3/4] w-full rounded-[24px] overflow-hidden bg-apple-canvas">
+                <div className="relative aspect-[3/4] w-full rounded-[24px] overflow-hidden bg-apple-canvas dark:bg-black">
                   <Image
                     src={profile.foto_url}
                     alt={profile.nama}
@@ -151,7 +197,7 @@ export default function Hero({ profile, cvUrl }: { profile: Profile; cvUrl: stri
               </div>
 
               {/* Floating Pill Badge */}
-              <div className="hidden sm:flex absolute -bottom-3 -left-3 items-center gap-2 px-4 py-2 rounded-2xl bg-white/95 backdrop-blur-xl border border-black/[0.08] shadow-[0_10px_25px_rgba(0,0,0,0.08)] text-xs font-medium text-apple-text">
+              <div className="hidden sm:flex absolute -bottom-3 -left-3 items-center gap-2 px-4 py-2 rounded-2xl bg-white/95 dark:bg-apple-card-dark-secondary/95 backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.1] shadow-[0_10px_25px_rgba(0,0,0,0.08)] text-xs font-medium text-apple-text dark:text-apple-text-dark">
                 <span className="text-sm">⚡</span>
                 <span>ANI-Augmented Web &amp; Mobile Engineer</span>
               </div>
@@ -165,3 +211,4 @@ export default function Hero({ profile, cvUrl }: { profile: Profile; cvUrl: stri
     </section>
   );
 }
+

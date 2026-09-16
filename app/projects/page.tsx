@@ -1,8 +1,14 @@
-import { getProfile, getPortfolioItems } from "@/lib/db";
+import { getProfile, getPortfolioItems, getCv } from "@/lib/db";
+import dynamicImport from "next/dynamic";
 import Navbar from "@/components/public/Navbar";
 import PortfolioGrid from "@/components/public/PortfolioGrid";
 import Footer from "@/components/public/Footer";
 import { Metadata } from "next";
+
+// Lazy-load interactive modals
+const CommandPalette = dynamicImport(() => import("@/components/public/CommandPalette"), { ssr: false });
+const CvQuickLookModal = dynamicImport(() => import("@/components/public/CvQuickLookModal"), { ssr: false });
+const ToastNotification = dynamicImport(() => import("@/components/public/ToastNotification"), { ssr: false });
 
 export const dynamic = "force-dynamic";
 
@@ -15,14 +21,20 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
   const profile = getProfile();
   const portfolio = getPortfolioItems();
+  const cv = getCv();
 
   return (
     <>
       <Navbar email={profile.email} name={profile.nama} />
-      <main className="flex-1 min-h-screen bg-apple-canvas">
+      <main className="flex-1 min-h-screen bg-apple-canvas dark:bg-apple-canvas-dark transition-colors duration-200">
         <PortfolioGrid projects={portfolio} isProjectsPage={true} />
       </main>
       <Footer profile={profile} />
+
+      {/* Global Modals & Notifications */}
+      <CommandPalette projects={portfolio} profile={profile} cv={cv} />
+      <CvQuickLookModal cv={cv} />
+      <ToastNotification />
     </>
   );
 }
