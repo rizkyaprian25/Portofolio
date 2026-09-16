@@ -51,11 +51,9 @@
       "slug": "aura-editorial-writing",
       "deskripsi_singkat": "Platform penulisan markdown bebas distraksi dengan rendering instan, sintesis semantik, dan kontrol tipografi presisi.",
       "deskripsi_lengkap": "Aura adalah platform publikasi mandiri yang dirancang untuk penulis, peneliti, dan developer. Dibangun dengan pendekatan minimalis elegan, menghadirkan zero-latency markdown rendering, semantic linking, pembuatan daftar isi otomatis, dan kontrol tipografi untuk kenyamanan membaca prima.",
-      "mediaType": "photo",
-      "gambar": [
-        "https://lh3.googleusercontent.com/aida/AEtjO1URT0U_BeittlihGdGIWKUJmLCw3HLrzVRDqLmuWRuCjKqC6TzM2xy8sWwLedvTuEG5w_S3HQ3NzfSEQJvz-qQh6Ma4bnvOhp0LQ3NsmMsPb_AoOGV4oksCz0pEHx3De5QkKxh4gnyShchVTMGINoY5C2AoLd8uD1I6cgmzitZTQH8dnJu4aYnMfT1wH7DC1bpJL5XAGSeMlDqhDWkUmvbLiaOp6Z8vnTtGq90OfDZ5oLRfHFdvH3KGF-QQ"
-      ],
-      "videoUrl": "",
+      "mediaType": "video",
+      "gambar": [],
+      "videoUrl": "https://youtu.be/CvItjZFiflg?si=8Yurk1hrgMBzNXrV",
       "teknologi": [
         "Next.js 14",
         "TypeScript",
@@ -66,7 +64,7 @@
       "featured": true,
       "urutan": 1,
       "created_at": "2024-08-10T10:00:00.000Z",
-      "updated_at": "2024-09-01T10:00:00.000Z"
+      "updated_at": "2026-09-16T06:46:42.847Z"
     },
     {
       "id": "proj-2",
@@ -76,7 +74,7 @@
       "deskripsi_lengkap": "FinWellness mengubah manajemen keuangan pribadi dari perhitungan rumit menjadi pengambilan keputusan yang tenang dan terukur. Fitur meliputi sinkronisasi multi-akun, peramalan tagihan berulang, pemodelan skenario interaktif, dan arsitektur responsif ramah seluler.",
       "mediaType": "photo",
       "gambar": [
-        "https://lh3.googleusercontent.com/aida/AEtjO1VQkaQmFtWFomVABHAWSlR_8fvaOm9DlYeJvQycNQoLpG7O9uM-8S0LFq29r-8SsSNVMNuMfKmHXJtXS4Br2IjeXWsQOHBgXaBR9jcu4IiHfuM_mjRUSHerGtjiW_TxoKd-yNTPbTB9Cl7JYO1RnZyg_aTMST61RslpGZzb1ckqk9cv2_plWsVp8INorqIUXZVCFvO4gM-CQjLq4iSTFJ94GJbipyIQwnnOzUGYFfn5hPD4A46NG5Zw0it2"
+        "/projects/finwellness.jpg"
       ],
       "videoUrl": "",
       "teknologi": [
@@ -100,7 +98,7 @@
       "deskripsi_lengkap": "Dashboard telemetri medis yang dibangun untuk unit observasi dan perawatan intensif. Terhubung langsung ke sensor hub melalui WebSockets berkecepatan tinggi untuk menampilkan variabilitas detak jantung, saturasi oksigen, serta deteksi anomali aritmia tanpa jeda waktu.",
       "mediaType": "photo",
       "gambar": [
-        "https://lh3.googleusercontent.com/aida/AEtjO1X2oHMnBVqZ7uFKyce5bj0t3ijQRwacFSi0UtPJvk0d3QxUDpw3OpEWJx7IHMtgX4C2HjLnyl9-ZO0mCIqZ-x37N6yZwS3aE2iVqeFbJgwSn3Ad8--tICIU8_t7qNHkUQL0LH1Cu_S_wEAZ_yG-mCrbsJEJ47cHAFUHXU6VagCcCS2FvnfxCDWwcJv651upUEMDCeqqB-H8e8T086oDRnpfkdjb1o5kJSrUq0YLLgiDztWYqrET8ND6eZk"
+        "/projects/pulsecare.jpg"
       ],
       "videoUrl": "",
       "teknologi": [

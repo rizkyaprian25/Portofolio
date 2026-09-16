@@ -123,11 +123,11 @@ function getDefaultData(): DatabaseSchema {
         slug: "aura-editorial-writing",
         deskripsi_singkat: "A distraction-free markdown publishing engine with live semantic synthesis and typography control.",
         deskripsi_lengkap: "Aura is an independent publishing platform designed for writers, researchers, and technical essayists. Built with a focus on serene minimalism, it features zero-latency markdown rendering, semantic linking, automated table of contents generation, and bespoke typography control for high-fidelity reading experiences.",
-        mediaType: "photo",
+        mediaType: "video",
         gambar: [
-          "https://lh3.googleusercontent.com/aida/AEtjO1URT0U_BeittlihGdGIWKUJmLCw3HLrzVRDqLmuWRuCjKqC6TzM2xy8sWwLedvTuEG5w_S3HQ3NzfSEQJvz-qQh6Ma4bnvOhp0LQ3NsmMsPb_AoOGV4oksCz0pEHx3De5QkKxh4gnyShchVTMGINoY5C2AoLd8uD1I6cgmzitZTQH8dnJu4aYnMfT1wH7DC1bpJL5XAGSeMlDqhDWkUmvbLiaOp6Z8vnTtGq90OfDZ5oLRfHFdvH3KGF-QQ",
+          "/projects/finwellness.jpg",
         ],
-        videoUrl: "",
+        videoUrl: "https://youtu.be/CvItjZFiflg?si=8Yurk1hrgMBzNXrV",
         teknologi: ["Next.js 14", "TypeScript", "Tailwind CSS", "PostgreSQL"],
         link_repo: "https://github.com/arifrahman/aura-platform",
         featured: true,
@@ -143,7 +143,7 @@ function getDefaultData(): DatabaseSchema {
         deskripsi_lengkap: "FinWellness transforms personal wealth management from stressful arithmetic into calm, mindful decision making. Features include multi-currency bank account synchronization, recurring bill forecasting, interactive scenario modeling, and an offline-first mobile-responsive architecture.",
         mediaType: "photo",
         gambar: [
-          "https://lh3.googleusercontent.com/aida/AEtjO1VQkaQmFtWFomVABHAWSlR_8fvaOm9DlYeJvQycNQoLpG7O9uM-8S0LFq29r-8SsSNVMNuMfKmHXJtXS4Br2IjeXWsQOHBgXaBR9jcu4IiHfuM_mjRUSHerGtjiW_TxoKd-yNTPbTB9Cl7JYO1RnZyg_aTMST61RslpGZzb1ckqk9cv2_plWsVp8INorqIUXZVCFvO4gM-CQjLq4iSTFJ94GJbipyIQwnnOzUGYFfn5hPD4A46NG5Zw0it2",
+          "/projects/finwellness.jpg",
         ],
         videoUrl: "",
         teknologi: ["React", "Node.js", "TypeScript", "PostgreSQL", "Recharts"],
@@ -161,7 +161,7 @@ function getDefaultData(): DatabaseSchema {
         deskripsi_lengkap: "An enterprise medical telemetry dashboard built for ICU and ambulatory observation units. Connects directly to hospital sensor hubs via secure WebSockets to display heart-rate variability, oxygen saturation, and automated arrhythmia anomaly detection with zero perceived latency.",
         mediaType: "photo",
         gambar: [
-          "https://lh3.googleusercontent.com/aida/AEtjO1X2oHMnBVqZ7uFKyce5bj0t3ijQRwacFSi0UtPJvk0d3QxUDpw3OpEWJx7IHMtgX4C2HjLnyl9-ZO0mCIqZ-x37N6yZwS3aE2iVqeFbJgwSn3Ad8--tICIU8_t7qNHkUQL0LH1Cu_S_wEAZ_yG-mCrbsJEJ47cHAFUHXU6VagCcCS2FvnfxCDWwcJv651upUEMDCeqqB-H8e8T086oDRnpfkdjb1o5kJSrUq0YLLgiDztWYqrET8ND6eZk",
+          "/projects/pulsecare.jpg",
         ],
         videoUrl: "",
         teknologi: ["WebSockets", "Go", "Docker", "Redis", "Next.js"],

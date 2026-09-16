@@ -27,6 +27,46 @@ function extractYouTubeId(url: string): string | null {
   return null;
 }
 
+function SafeProjectImage({
+  src,
+  alt,
+  fill,
+  sizes,
+  className,
+}: {
+  src: string;
+  alt: string;
+  fill?: boolean;
+  sizes?: string;
+  className?: string;
+}) {
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    setHasError(false);
+  }, [src]);
+
+  if (hasError) {
+    return (
+      <div className="w-full h-full flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-800 text-apple-secondary text-xs p-4 text-center select-none">
+        <span className="font-medium text-apple-text dark:text-apple-text-dark mb-1">{alt}</span>
+        <span className="text-[11px] opacity-70">Pratinjau tidak tersedia</span>
+      </div>
+    );
+  }
+
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      fill={fill}
+      sizes={sizes}
+      className={className}
+      onError={() => setHasError(true)}
+    />
+  );
+}
+
 interface PortfolioGridProps {
   projects: PortfolioItem[];
   limit?: number;
@@ -264,7 +304,7 @@ export default function PortfolioGrid({
                         </div>
                       </>
                     ) : project.gambar && project.gambar.length > 0 ? (
-                      <Image
+                      <SafeProjectImage
                         src={project.gambar[0]}
                         alt={project.judul}
                         fill
@@ -443,7 +483,7 @@ export default function PortfolioGrid({
                 </div>
               ) : selectedProject.gambar && selectedProject.gambar.length > 0 ? (
                 <div className="relative aspect-[16/9] w-full rounded-[20px] overflow-hidden bg-apple-canvas dark:bg-black border border-black/[0.06] dark:border-white/[0.08]">
-                  <Image
+                  <SafeProjectImage
                     src={selectedProject.gambar[0]}
                     alt={selectedProject.judul}
                     fill

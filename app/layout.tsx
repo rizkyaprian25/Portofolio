@@ -105,6 +105,10 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
+                  if (window.location.pathname.startsWith('/admin')) {
+                    document.documentElement.classList.remove('dark');
+                    return;
+                  }
                   var saved = localStorage.getItem('theme');
                   var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                   if (saved === 'dark' || (!saved && prefersDark)) {
