@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, Github, Play, X, ArrowRight, ArrowLeft, Share2, Search } from "lucide-react";
 import { PortfolioItem } from "@/lib/db";
 import { playClickSound, playPopSound } from "@/lib/audio";
 import { triggerToast } from "./ToastNotification";
 import SpotlightCard from "./SpotlightCard";
+import SafeImage from "@/components/ui/SafeImage";
 
 /**
  * Extract YouTube video ID from various URL formats
@@ -25,46 +25,6 @@ function extractYouTubeId(url: string): string | null {
     if (match) return match[1];
   }
   return null;
-}
-
-function SafeProjectImage({
-  src,
-  alt,
-  fill,
-  sizes,
-  className,
-}: {
-  src: string;
-  alt: string;
-  fill?: boolean;
-  sizes?: string;
-  className?: string;
-}) {
-  const [hasError, setHasError] = useState(false);
-
-  useEffect(() => {
-    setHasError(false);
-  }, [src]);
-
-  if (hasError) {
-    return (
-      <div className="w-full h-full flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-800 text-apple-secondary text-xs p-4 text-center select-none">
-        <span className="font-medium text-apple-text dark:text-apple-text-dark mb-1">{alt}</span>
-        <span className="text-[11px] opacity-70">Pratinjau tidak tersedia</span>
-      </div>
-    );
-  }
-
-  return (
-    <Image
-      src={src}
-      alt={alt}
-      fill={fill}
-      sizes={sizes}
-      className={className}
-      onError={() => setHasError(true)}
-    />
-  );
 }
 
 interface PortfolioGridProps {
@@ -289,12 +249,13 @@ export default function PortfolioGrid({
                       // YouTube Thumbnail with Play overlay
                       <>
                         {extractYouTubeId(project.videoUrl) && (
-                          <Image
+                          <SafeImage
                             src={`https://img.youtube.com/vi/${extractYouTubeId(project.videoUrl)}/hqdefault.jpg`}
                             alt={project.judul}
                             fill
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             className="object-cover object-center group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+                            fallbackText="Video pratinjau"
                           />
                         )}
                         <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
@@ -304,7 +265,7 @@ export default function PortfolioGrid({
                         </div>
                       </>
                     ) : project.gambar && project.gambar.length > 0 ? (
-                      <SafeProjectImage
+                      <SafeImage
                         src={project.gambar[0]}
                         alt={project.judul}
                         fill
@@ -483,7 +444,7 @@ export default function PortfolioGrid({
                 </div>
               ) : selectedProject.gambar && selectedProject.gambar.length > 0 ? (
                 <div className="relative aspect-[16/9] w-full rounded-[20px] overflow-hidden bg-apple-canvas dark:bg-black border border-black/[0.06] dark:border-white/[0.08]">
-                  <SafeProjectImage
+                  <SafeImage
                     src={selectedProject.gambar[0]}
                     alt={selectedProject.judul}
                     fill

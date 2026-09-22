@@ -126,18 +126,19 @@ export default function CommandPalette({ projects, profile, cv }: CommandPalette
   };
 
   // Toggle sound
-  const toggleAudio = () => {
+  const toggleAudio = React.useCallback(() => {
+    playClickSound();
     const nextMuted = !isMuted;
     setSoundMuted(nextMuted);
     setIsMuted(nextMuted);
     triggerToast(nextMuted ? "Suara UI dibisukan" : "Suara UI diaktifkan");
-  };
+  }, [isMuted]);
 
   // Copy email
-  const copyEmail = () => {
+  const copyEmail = React.useCallback(() => {
     navigator.clipboard.writeText(profile.email);
     triggerToast(`Email ${profile.email} disalin!`);
-  };
+  }, [profile.email]);
 
   // Build items list
   const allItems: ActionItem[] = useMemo(() => {
@@ -327,7 +328,7 @@ export default function CommandPalette({ projects, profile, cv }: CommandPalette
     }
 
     return list;
-  }, [projects, profile, cv, isDark, isMuted]);
+  }, [projects, profile, cv, isDark, isMuted, copyEmail, toggleAudio]);
 
   // Filter items by query
   const filteredItems = useMemo(() => {

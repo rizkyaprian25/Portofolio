@@ -3,8 +3,15 @@ import { cookies } from "next/headers";
 import bcrypt from "bcryptjs";
 import { getAdminUser } from "./db";
 
-const JWT_SECRET = process.env.JWT_SECRET || "super-secret-warm-editorial-key-2024";
+const DEFAULT_SECRET = "super-secret-warm-editorial-key-2024";
+const JWT_SECRET = process.env.JWT_SECRET || DEFAULT_SECRET;
 const COOKIE_NAME = "portfolio_admin_token";
+
+if (process.env.NODE_ENV === "production" && !process.env.JWT_SECRET) {
+  console.warn(
+    "[SECURITY WARNING] JWT_SECRET tidak didefinisikan di environment variables. Harap atur JWT_SECRET di .env.local demi keamanan maksimal."
+  );
+}
 
 export interface SessionPayload {
   username: string;

@@ -50,11 +50,14 @@ ehthumbs.db
 /public/uploads/*
 !/public/uploads/.gitkeep
 
-# AI Workflows, PRD, and Design Documents
-PRD.md
-DESIGN.md
-*.prompt.md
-*.ai.md
+# Markdown files — Exclude all .md except README.md
+*.md
+!README.md
+!readme.md
+!**/README.md
+!**/readme.md
+
+# AI Workflows, agents, and IDE directories
 .agents/
 .gemini/
 .claude/

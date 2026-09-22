@@ -6,7 +6,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://muhamadrizkyaprian.
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Muhamad Rizky Aprian — Web & Mobile Developer, AI Enthusiast",
+    default: "Muhamad Rizky Aprian",
     template: "%s | Muhamad Rizky Aprian",
   },
   description:

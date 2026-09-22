@@ -24,13 +24,15 @@ export interface Profile {
   updated_at: string;
 }
 
+export type MediaType = "photo" | "video";
+
 export interface PortfolioItem {
   id: string;
   judul: string;
   slug: string;
   deskripsi_singkat: string;
   deskripsi_lengkap: string;
-  mediaType: "photo" | "video";
+  mediaType: MediaType;
   gambar: string[];
   videoUrl: string;
   teknologi: string[];

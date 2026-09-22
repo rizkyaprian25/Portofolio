@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import SafeImage from "@/components/ui/SafeImage";
 import { Check, Copy, ExternalLink, KeyRound, Lock, ShieldCheck, UploadCloud, User } from "lucide-react";
 import { Profile } from "@/lib/db";
 
@@ -145,7 +145,14 @@ export default function ProfileEditor({ initialProfile }: { initialProfile: Prof
         <div className="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-black/[0.06]">
           <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-[22px] overflow-hidden bg-apple-canvas border border-black/[0.08] shrink-0 shadow-sm">
             {fotoUrl ? (
-              <Image src={fotoUrl} alt="Portrait" fill className="object-cover" />
+              <SafeImage
+                src={fotoUrl}
+                alt="Portrait"
+                fill
+                sizes="112px"
+                className="object-cover"
+                fallbackText="Foto Profil"
+              />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-apple-secondary">
                 <User className="w-8 h-8" />

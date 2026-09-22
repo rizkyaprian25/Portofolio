@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
+import SafeImage from "@/components/ui/SafeImage";
 import {
   Check,
   FolderPlus,
@@ -437,7 +437,7 @@ export default function PortfolioManager({
                             <Play className="w-4 h-4 text-apple-secondary" />
                           </div>
                         ) : project.gambar && project.gambar[0] ? (
-                          <Image src={project.gambar[0]} alt={project.judul} fill className="object-cover" />
+                          <SafeImage src={project.gambar[0]} alt={project.judul} fill sizes="64px" className="object-cover" fallbackText="No img" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-[10px] text-apple-secondary">
                             None
@@ -653,7 +653,7 @@ export default function PortfolioManager({
                           key={i}
                           className="relative w-24 h-16 rounded-xl overflow-hidden border border-black/[0.06] group shrink-0"
                         >
-                          <Image src={imgUrl} alt="Thumbnail" fill className="object-cover" />
+                          <SafeImage src={imgUrl} alt="Thumbnail" fill sizes="96px" className="object-cover" fallbackText="No img" />
                           <button
                             type="button"
                             onClick={() => handleRemoveImage(imgUrl)}
