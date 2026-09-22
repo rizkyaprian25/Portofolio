@@ -311,7 +311,11 @@ export function updateCv(partial: Partial<CvData>): CvData {
 // Admin Auth
 export function getAdminUser(): AdminUser {
   const db = ensureDb();
-  return db.admin;
+  return {
+    ...db.admin,
+    username: process.env.ADMIN_USERNAME || db.admin.username,
+    security_code: process.env.ADMIN_SECURITY_CODE || db.admin.security_code || "889900",
+  };
 }
 
 export function updateAdminPassword(newPasswordHash: string): void {
@@ -322,7 +326,7 @@ export function updateAdminPassword(newPasswordHash: string): void {
 
 export function getAdminSecretPath(): string {
   const db = ensureDb();
-  return db.admin.secret_path || "5495i403-asjdd";
+  return process.env.ADMIN_SECRET_PATH || db.admin.secret_path || "5495i403-asjdd";
 }
 
 export function updateAdminSecurity(updates: {
