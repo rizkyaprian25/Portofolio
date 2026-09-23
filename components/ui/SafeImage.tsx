@@ -11,11 +11,11 @@ interface SafeImageProps extends Omit<ImageProps, "onError"> {
 }
 
 /**
- * SafeImage — Defensive Next.js Image Component
- * Grounded in Apple Human Interface Guidelines:
- * - Gracefully handles upstream network failures, expired tokens (403), or broken links (404).
- * - Never breaks layout with broken image icons; presents a serene, minimalist fallback capsule.
- * - Enforces responsive image sizing and avoids layout shifts.
+ * SafeImage — Komponen Gambar Defensif Next.js
+ * Berpijak pada Apple Human Interface Guidelines:
+ * - Menangani kegagalan jaringan eksternal, token kedaluwarsa (403), atau link rusak (404) secara elegan.
+ * - Tidak pernah merusak tata letak dengan ikon gambar pecah; menyajikan kapsul cadangan minimalis.
+ * - Menerapkan ukuran gambar responsif dan mencegah layout shift.
  */
 export default function SafeImage({
   src,
@@ -33,12 +33,12 @@ export default function SafeImage({
 }: SafeImageProps) {
   const [hasError, setHasError] = useState(false);
 
-  // Reset error state if source changes
+  // Setel ulang status error jika sumber gambar berubah
   useEffect(() => {
     setHasError(false);
   }, [src]);
 
-  // If no source provided or failed to load
+  // Jika sumber gambar tidak tersedia atau gagal dimuat
   if (!src || hasError) {
     return (
       <div

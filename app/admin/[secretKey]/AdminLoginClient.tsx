@@ -12,12 +12,12 @@ interface AdminLoginClientProps {
 export default function AdminLoginClient({ secretKey }: AdminLoginClientProps) {
   const router = useRouter();
 
-  // State: step 1 = passcode gate, step 2 = credential login
+  // Status alur login: tahap 1 = gerbang passcode, tahap 2 = otentikasi kredensial
   const [step, setStep] = useState<1 | 2>(1);
   const [passcode, setPasscode] = useState<string[]>(["", "", "", "", "", ""]);
   const [securityCode, setSecurityCode] = useState("");
 
-  // Credentials
+  // Kredensial akun admin
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -25,7 +25,7 @@ export default function AdminLoginClient({ secretKey }: AdminLoginClientProps) {
   const [loading, setLoading] = useState(false);
   const [shaking, setShaking] = useState(false);
 
-  // Input refs for 6-digit passcode
+  // Referensi elemen input untuk 6 digit passcode
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   useEffect(() => {
@@ -34,10 +34,10 @@ export default function AdminLoginClient({ secretKey }: AdminLoginClientProps) {
     }
   }, [step]);
 
-  // Handle single digit input
+  // Tangani perubahan nilai digit angka
   const handleDigitChange = (index: number, value: string) => {
     if (value.length > 1) {
-      // Handle paste
+      // Tangani aksi paste kode angka lengkap
       const pasted = value.replace(/\D/g, "").slice(0, 6);
       if (pasted.length > 0) {
         const newPass = [...passcode];
@@ -75,7 +75,7 @@ export default function AdminLoginClient({ secretKey }: AdminLoginClientProps) {
     }
   };
 
-  // Verify Passcode Gate
+  // Verifikasi gerbang passcode keamanan
   const verifySecurityPasscode = async (code: string) => {
     setError("");
     setLoading(true);

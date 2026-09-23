@@ -47,11 +47,11 @@ export default function PortfolioManager({
   const [searchQuery, setSearchQuery] = useState("");
   const [filterFeatured, setFilterFeatured] = useState<"ALL" | "FEATURED">("ALL");
 
-  // Drawer / Modal state
+  // State visibilitas drawer / modal formulir
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<PortfolioItem | null>(null);
 
-  // Form states
+  // State input formulir proyek
   const [formJudul, setFormJudul] = useState("");
   const [formSlug, setFormSlug] = useState("");
   const [formDeskripsiSingkat, setFormDeskripsiSingkat] = useState("");
@@ -206,7 +206,7 @@ export default function PortfolioManager({
       return;
     }
 
-    // Validate media
+    // Validasi kelengkapan media (foto atau tautan video)
     if (formMediaType === "photo" && formGambar.length === 0) {
       setFormError("Please upload at least one image");
       return;

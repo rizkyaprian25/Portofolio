@@ -14,12 +14,12 @@ interface Props {
 export default async function SecretAdminLoginPage({ params }: Props) {
   const currentSecret = getAdminSecretPath();
 
-  // If secretKey in URL doesn't match the configured secret code, return 404 Not Found
+  // Jika secretKey pada URL tidak cocok dengan kode rahasia yang terkonfigurasi, alihkan ke 404 Not Found
   if (params.secretKey !== currentSecret) {
     notFound();
   }
 
-  // If user is already authenticated, take them directly into the admin dashboard
+  // Jika sesi admin sudah terautentikasi, arahkan langsung ke dashboard admin
   const authed = await isAuthenticated();
   if (authed) {
     redirect("/admin");

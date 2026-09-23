@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Tidak ada file yang diunggah" }, { status: 400 });
     }
 
-    // Strict MIME-Type validation and extension whitelist
+    // Validasi ketat MIME-Type dan whitelist ekstensi file yang diizinkan
     const MIME_EXTENSION_MAP: Record<string, string> = {
       "image/jpeg": ".jpg",
       "image/png": ".png",

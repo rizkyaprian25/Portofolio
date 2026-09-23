@@ -5,7 +5,7 @@ import PortfolioGrid from "@/components/public/PortfolioGrid";
 import Footer from "@/components/public/Footer";
 import { Metadata } from "next";
 
-// Lazy-load interactive modals
+// Pemuatan malas (lazy-load) modal interaktif
 const CommandPalette = dynamicImport(() => import("@/components/public/CommandPalette"), { ssr: false });
 const CvQuickLookModal = dynamicImport(() => import("@/components/public/CvQuickLookModal"), { ssr: false });
 const ToastNotification = dynamicImport(() => import("@/components/public/ToastNotification"), { ssr: false });

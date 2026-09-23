@@ -10,7 +10,7 @@ import SpotlightCard from "./SpotlightCard";
 import SafeImage from "@/components/ui/SafeImage";
 
 /**
- * Extract YouTube video ID from various URL formats
+ * Ekstraksi ID video YouTube dari berbagai format URL
  */
 function extractYouTubeId(url: string): string | null {
   if (!url) return null;
@@ -44,7 +44,7 @@ export default function PortfolioGrid({
   const [activeFilter, setActiveFilter] = useState<string>("all");
   const [highlightedTech, setHighlightedTech] = useState<string | null>(null);
 
-  // Connected Skill Highlighting Listener & Filter Listener
+  // Listener event penyorotan keterampilan dan filter teknologi
   useEffect(() => {
     const handleFilterTech = (e: CustomEvent<string>) => {
       const tech = e.detail;
@@ -74,7 +74,7 @@ export default function PortfolioGrid({
     };
   }, [projects, isProjectsPage]);
 
-  // Filter logic for projects page
+  // Logika filter untuk halaman arsip proyek
   const displayedProjects = React.useMemo(() => {
     let list = projects;
     if (isProjectsPage && activeFilter !== "all") {
@@ -90,7 +90,7 @@ export default function PortfolioGrid({
     return list;
   }, [projects, limit, isProjectsPage, activeFilter]);
 
-  // Unique categories for filtering on projects page
+  // Kategori teknologi unik untuk tombol filter pada halaman proyek
   const techCategories = React.useMemo(() => {
     if (!isProjectsPage) return [];
     const set = new Set<string>();
@@ -100,7 +100,7 @@ export default function PortfolioGrid({
     return Array.from(set).slice(0, 6);
   }, [projects, isProjectsPage]);
 
-  // Copy Project Link
+  // Salin tautan proyek ke clipboard
   const handleCopyProjectLink = (title: string, e: React.MouseEvent) => {
     e.stopPropagation();
     playClickSound();
@@ -246,7 +246,7 @@ export default function PortfolioGrid({
                     className="relative aspect-[16/10] w-full bg-black/5 dark:bg-white/5 overflow-hidden cursor-pointer"
                   >
                     {(project.mediaType || "photo") === "video" && project.videoUrl ? (
-                      // YouTube Thumbnail with Play overlay
+                      // Thumbnail video YouTube dengan overlay tombol putar
                       <>
                         {extractYouTubeId(project.videoUrl) && (
                           <SafeImage

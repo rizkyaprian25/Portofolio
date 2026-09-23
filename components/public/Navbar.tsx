@@ -20,7 +20,7 @@ export default function Navbar({ email, name }: { email: string; name: string })
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Initialize theme & sound state
+  // Inisialisasi state tema terang/gelap dan audio haptic
   useEffect(() => {
     setIsDark(document.documentElement.classList.contains("dark"));
     setIsMuted(isSoundMuted());
@@ -62,7 +62,7 @@ export default function Navbar({ email, name }: { email: string; name: string })
     }
   };
 
-  // Secret shortcut (Ctrl+Shift+A or Cmd+Shift+A) to open hidden admin portal
+  // Pintasan rahasia (Ctrl+Shift+A atau Cmd+Shift+A) untuk membuka portal admin tersembunyi
   const openSecretAdmin = () => {
     const saved = localStorage.getItem("adm_p_key");
     if (saved) {
@@ -88,7 +88,7 @@ export default function Navbar({ email, name }: { email: string; name: string })
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  // Secret triple click on the monogram dot
+  // Klik tiga kali pada titik monogram logo untuk membuka akses admin
   const handleDotClick = () => {
     playClickSound();
     const newCount = clickCount + 1;

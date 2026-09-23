@@ -7,11 +7,11 @@ import AboutSkills from "@/components/public/AboutSkills";
 import CvSection from "@/components/public/CvSection";
 import Footer from "@/components/public/Footer";
 
-// Lazy-load interactive modals to minimize initial JS bundle
+// Pemuatan malas (lazy-load) modal interaktif guna meminimalkan ukuran bundel JavaScript awal
 const CvQuickLookModal = dynamicImport(() => import("@/components/public/CvQuickLookModal"), { ssr: false });
 const ToastNotification = dynamicImport(() => import("@/components/public/ToastNotification"), { ssr: false });
 
-// Revalidate every 0 seconds or dynamic to see live updates from admin panel immediately
+// Rendering dinamis agar pembaruan data dari panel admin langsung tercermin di halaman publik
 export const dynamic = "force-dynamic";
 
 export default function HomePage() {

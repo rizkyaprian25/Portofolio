@@ -26,7 +26,7 @@ export default function ProfileEditor({ initialProfile }: { initialProfile: Prof
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<{ text: string; isError?: boolean } | null>(null);
 
-  // Admin Security Settings State
+  // State pengaturan keamanan akses admin
   const [secretPath, setSecretPath] = useState("5495i403-asjdd");
   const [securityCode, setSecurityCode] = useState("889900");
   const [isSavingSecurity, setIsSavingSecurity] = useState(false);

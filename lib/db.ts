@@ -68,9 +68,9 @@ export interface DatabaseSchema {
 const DATA_DIR = path.join(process.cwd(), "data");
 const DB_FILE = path.join(DATA_DIR, "database.json");
 
-// Default initial seed data (Warm Editorial Minimalist)
+// Data seed bawaan awal (Warm Editorial Minimalist)
 function getDefaultData(): DatabaseSchema {
-  // Default password: "admin123"
+  // Kata sandi default awal: "admin123"
   const defaultPasswordHash = bcrypt.hashSync("admin123", 10);
 
   return {
@@ -220,7 +220,7 @@ function saveDb(data: DatabaseSchema): void {
   fs.renameSync(tempFile, DB_FILE);
 }
 
-// Profile CRUD
+// Operasi CRUD Profil Pengembang
 export function getProfile(): Profile {
   const db = ensureDb();
   return db.profile;
@@ -237,7 +237,7 @@ export function updateProfile(partial: Partial<Profile>): Profile {
   return db.profile;
 }
 
-// Portfolio CRUD
+// Operasi CRUD Portofolio Proyek
 export function getPortfolioItems(): PortfolioItem[] {
   const db = ensureDb();
   return db.portfolio.sort((a, b) => a.urutan - b.urutan);
@@ -291,7 +291,7 @@ export function deletePortfolioItem(id: string): boolean {
   return false;
 }
 
-// CV CRUD
+// Operasi CRUD Dokumen CV
 export function getCv(): CvData {
   const db = ensureDb();
   return db.cv;
@@ -308,7 +308,7 @@ export function updateCv(partial: Partial<CvData>): CvData {
   return db.cv;
 }
 
-// Admin Auth
+// Autentikasi & Keamanan Sesi Admin
 export function getAdminUser(): AdminUser {
   const db = ensureDb();
   return {

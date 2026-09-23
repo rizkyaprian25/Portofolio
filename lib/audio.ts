@@ -1,6 +1,6 @@
 /**
- * Web Audio API synthesized tactile micro-sounds
- * Zero external audio files, ultra-lightweight and instantaneous.
+ * Generator mikro-suara haptic sintetis menggunakan Web Audio API.
+ * Beroperasi murni tanpa file audio eksternal, sangat ringan, dan berlatensi nol.
  */
 
 let audioCtx: AudioContext | null = null;
@@ -31,7 +31,7 @@ export function setSoundMuted(muted: boolean): void {
 }
 
 /**
- * Gentle Apple-like UI Click sound
+ * Efek suara klik lembut khas antarmuka Apple
  */
 export function playClickSound() {
   if (isSoundMuted()) return;
@@ -55,12 +55,12 @@ export function playClickSound() {
     osc.start();
     osc.stop(ctx.currentTime + 0.03);
   } catch {
-    // Ignore audio error if browser blocks audio
+    // Abaikan jika browser memblokir audio otomatis
   }
 }
 
 /**
- * Tactile pill / tab pop sound
+ * Efek suara pop taktil saat memilih pill atau tab filter
  */
 export function playPopSound() {
   if (isSoundMuted()) return;
@@ -84,12 +84,12 @@ export function playPopSound() {
     osc.start();
     osc.stop(ctx.currentTime + 0.04);
   } catch {
-    // Ignore audio error
+    // Abaikan jika browser membatasi Web Audio
   }
 }
 
 /**
- * Chime for toggle / theme switch
+ * Efek nada lonceng halus saat beralih tema terang/gelap
  */
 export function playChimeSound() {
   if (isSoundMuted()) return;
@@ -103,12 +103,12 @@ export function playChimeSound() {
     const gain = ctx.createGain();
 
     osc1.type = "sine";
-    osc1.frequency.setValueAtTime(523.25, now); // C5
-    osc1.frequency.setValueAtTime(659.25, now + 0.06); // E5
+    osc1.frequency.setValueAtTime(523.25, now); // Nada C5
+    osc1.frequency.setValueAtTime(659.25, now + 0.06); // Nada E5
 
     osc2.type = "sine";
     osc2.frequency.setValueAtTime(659.25, now);
-    osc2.frequency.setValueAtTime(783.99, now + 0.06); // G5
+    osc2.frequency.setValueAtTime(783.99, now + 0.06); // Nada G5
 
     gain.gain.setValueAtTime(0.06, now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
@@ -122,6 +122,6 @@ export function playChimeSound() {
     osc2.start(now);
     osc2.stop(now + 0.16);
   } catch {
-    // Ignore audio error
+    // Abaikan error audio
   }
 }

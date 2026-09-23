@@ -1,4 +1,4 @@
-// In-memory sliding window rate limiter for security endpoints
+// Pembatas laju permintaan (in-memory sliding window rate limiter) untuk keamanan endpoint
 interface RateLimitEntry {
   count: number;
   resetTime: number;
@@ -6,7 +6,7 @@ interface RateLimitEntry {
 
 const rateLimitMap = new Map<string, RateLimitEntry>();
 
-// Clean up stale entries every 10 minutes
+// Bersihkan entri kedaluwarsa secara berkala setiap 10 menit
 if (typeof setInterval !== "undefined") {
   setInterval(() => {
     const now = Date.now();
@@ -21,7 +21,7 @@ if (typeof setInterval !== "undefined") {
 export function checkRateLimit(
   identifier: string,
   maxRequests: number = 5,
-  windowMs: number = 15 * 60 * 1000 // 15 minutes
+  windowMs: number = 15 * 60 * 1000 // Jendela waktu batas: 15 menit
 ): { allowed: boolean; remaining: number; retryAfterSec: number } {
   const now = Date.now();
   const entry = rateLimitMap.get(identifier);

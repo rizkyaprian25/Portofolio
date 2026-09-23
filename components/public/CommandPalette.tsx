@@ -52,7 +52,7 @@ export default function CommandPalette({ projects, profile, cv }: CommandPalette
   const [isMuted, setIsMuted] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Initialize theme and sound states
+  // Inisialisasi status tema tampilan dan audio haptic
   useEffect(() => {
     setIsDark(document.documentElement.classList.contains("dark"));
     setIsMuted(isSoundMuted());
@@ -71,7 +71,7 @@ export default function CommandPalette({ projects, profile, cv }: CommandPalette
     };
   }, []);
 
-  // Global shortcut listeners (Cmd+K, Ctrl+K, or /)
+  // Listener pintasan keyboard global (Cmd+K, Ctrl+K, atau /)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && (e.key === "k" || e.key === "K")) {
@@ -101,7 +101,7 @@ export default function CommandPalette({ projects, profile, cv }: CommandPalette
     };
   }, [isOpen]);
 
-  // Focus input on open
+  // Fokuskan kursor pada kolom pencarian saat palet dibuka
   useEffect(() => {
     if (isOpen) {
       setQuery("");
@@ -110,7 +110,7 @@ export default function CommandPalette({ projects, profile, cv }: CommandPalette
     }
   }, [isOpen]);
 
-  // Toggle dark mode
+  // Beralih tema tampilan terang atau gelap
   const toggleTheme = () => {
     const nextDark = !document.documentElement.classList.contains("dark");
     if (nextDark) {
@@ -125,7 +125,7 @@ export default function CommandPalette({ projects, profile, cv }: CommandPalette
     triggerToast(nextDark ? "Mode Gelap aktif" : "Mode Terang aktif");
   };
 
-  // Toggle sound
+  // Beralih status bisu audio haptic
   const toggleAudio = React.useCallback(() => {
     playClickSound();
     const nextMuted = !isMuted;
@@ -134,17 +134,17 @@ export default function CommandPalette({ projects, profile, cv }: CommandPalette
     triggerToast(nextMuted ? "Suara UI dibisukan" : "Suara UI diaktifkan");
   }, [isMuted]);
 
-  // Copy email
+  // Salin email ke clipboard
   const copyEmail = React.useCallback(() => {
     navigator.clipboard.writeText(profile.email);
     triggerToast(`Email ${profile.email} disalin!`);
   }, [profile.email]);
 
-  // Build items list
+  // Susun daftar seluruh opsi pencarian
   const allItems: ActionItem[] = useMemo(() => {
     const list: ActionItem[] = [];
 
-    // Projects
+    // Opsi Proyek Portofolio
     projects.forEach((proj) => {
       list.push({
         id: `proj-${proj.id}`,
@@ -163,7 +163,7 @@ export default function CommandPalette({ projects, profile, cv }: CommandPalette
       });
     });
 
-    // Quick Filter Categories on Projects Page
+    // Filter Cepat pada Halaman Proyek
     list.push(
       {
         id: "filter-all",
@@ -187,7 +187,7 @@ export default function CommandPalette({ projects, profile, cv }: CommandPalette
       }
     );
 
-    // Navigation
+    // Navigasi Halaman Utama
     list.push(
       {
         id: "nav-overview",
@@ -241,7 +241,7 @@ export default function CommandPalette({ projects, profile, cv }: CommandPalette
       }
     );
 
-    // Quick Actions
+    // Aksi Cepat
     list.push(
       {
         id: "action-preview-cv",
@@ -330,7 +330,7 @@ export default function CommandPalette({ projects, profile, cv }: CommandPalette
     return list;
   }, [projects, profile, cv, isDark, isMuted, copyEmail, toggleAudio]);
 
-  // Filter items by query
+  // Filter item berdasarkan kata kunci pencarian
   const filteredItems = useMemo(() => {
     if (!query.trim()) return allItems;
     const q = query.toLowerCase();
@@ -341,7 +341,7 @@ export default function CommandPalette({ projects, profile, cv }: CommandPalette
     );
   }, [allItems, query]);
 
-  // Handle keyboard navigation inside search list
+  // Navigasi keyboard di dalam daftar hasil pencarian
   const handleInputKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Escape") {
       e.preventDefault();
