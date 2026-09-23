@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ScrollProgress from "@/components/public/ScrollProgress";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://muhamadrizkyaprian.dev";
 
@@ -123,6 +124,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-apple-canvas dark:bg-apple-canvas-dark text-apple-text dark:text-apple-text-dark antialiased min-h-screen flex flex-col transition-colors duration-200">
+        <ScrollProgress />
         {children}
       </body>
     </html>

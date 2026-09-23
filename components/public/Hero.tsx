@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight, Clock, Eye, MapPin, Sparkles } from "lucide-react";
+import { ChevronRight, Eye, MapPin, Sparkles } from "lucide-react";
 import { Profile } from "@/lib/db";
 import { playClickSound, playPopSound } from "@/lib/audio";
 import { openCvQuickLook } from "./CvQuickLookModal";
 import SpotlightCard from "./SpotlightCard";
+import LiveWibBadge from "./LiveWibBadge";
 
 function getStatusIndicator(status: string) {
   const s = (status || "").toLowerCase();
@@ -25,23 +26,6 @@ function getStatusIndicator(status: string) {
 
 export default function Hero({ profile, cvUrl }: { profile: Profile; cvUrl: string }) {
   const statusInfo = getStatusIndicator(profile.status_ketersediaan);
-  const [localTime, setLocalTime] = useState<string>("");
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const timeString = now.toLocaleTimeString("id-ID", {
-        timeZone: "Asia/Jakarta",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      });
-      setLocalTime(`${timeString} WIB`);
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <section id="overview" className="relative pt-10 pb-16 md:pt-16 md:pb-24 overflow-hidden">
@@ -49,22 +33,17 @@ export default function Hero({ profile, cvUrl }: { profile: Profile; cvUrl: stri
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           
-          {/* Left Column: Name, Headline, Bio, ANI Stack, CTAs */}
+          {/* Kolom Kiri: Nama, Headline, Bio, Stack ANI, Tombol Aksi */}
           <div className="lg:col-span-7 space-y-6 text-left">
             
-            {/* Availability & Live Clock Capsule */}
+            {/* Kapsul Ketersediaan & Widget Jam Kerja Real-Time WIB */}
             <div className="flex flex-wrap items-center gap-2">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white dark:bg-apple-card-dark border border-black/[0.08] dark:border-white/[0.08] shadow-[0_1px_2px_rgba(0,0,0,0.04)] text-xs font-medium text-apple-text dark:text-apple-text-dark">
                 <span className={`w-2 h-2 rounded-full ${statusInfo.dotColor} ${statusInfo.pulse ? "animate-pulse" : ""}`} />
                 <span>{profile.status_ketersediaan}</span>
               </div>
 
-              {localTime && (
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/5 border border-black/[0.04] dark:border-white/[0.06] text-xs font-medium text-apple-secondary dark:text-apple-secondary-dark">
-                  <Clock className="w-3 h-3 text-apple-blue" />
-                  <span>{localTime} (UTC+7)</span>
-                </div>
-              )}
+              <LiveWibBadge />
             </div>
 
             {/* Apple Confident Typography */}
@@ -78,12 +57,12 @@ export default function Hero({ profile, cvUrl }: { profile: Profile; cvUrl: stri
               </h1>
             </div>
 
-            {/* Subtitle / Bio */}
+            {/* Subtitle / Ringkasan Profil */}
             <p className="text-base sm:text-lg text-apple-secondary dark:text-apple-secondary-dark font-normal leading-relaxed">
               {profile.bio}
             </p>
 
-            {/* ANI & Agentic Engineering Focus Card */}
+            {/* Kartu Fokus Engineering ANI & Agentic */}
             <SpotlightCard className="p-4 rounded-2xl bg-white dark:bg-apple-card-dark border border-black/[0.06] dark:border-white/[0.08] shadow-apple-card space-y-2.5">
               <div className="flex items-center justify-between text-xs font-semibold text-apple-text dark:text-apple-text-dark">
                 <span className="uppercase tracking-wider">Artificial Narrow Intelligence (ANI) Stack</span>
@@ -117,7 +96,7 @@ export default function Hero({ profile, cvUrl }: { profile: Profile; cvUrl: stri
               </div>
             </SpotlightCard>
 
-            {/* Apple Style CTAs */}
+            {/* Tombol Aksi Khas Apple */}
             <div className="pt-2 flex flex-wrap items-center gap-3 text-sm font-medium">
               <Link
                 href="#work"
@@ -127,7 +106,7 @@ export default function Hero({ profile, cvUrl }: { profile: Profile; cvUrl: stri
                 <span>Lihat Karya &amp; Proyek</span>
               </Link>
 
-              {/* QuickLook CV Preview Trigger */}
+              {/* Pemicu Modal QuickLook Pratinjau CV */}
               <button
                 type="button"
                 onClick={() => {
@@ -151,7 +130,7 @@ export default function Hero({ profile, cvUrl }: { profile: Profile; cvUrl: stri
               </a>
             </div>
 
-            {/* Subtext Location */}
+            {/* Lokasi & Preferensi Kerja */}
             <div className="pt-1 flex items-center gap-1.5 text-xs text-apple-secondary dark:text-apple-secondary-dark">
               <MapPin className="w-3.5 h-3.5 text-apple-secondary dark:text-apple-secondary-dark" />
               <span>Berbasis di {profile.lokasi} · Siap Bekerja Remote &amp; Hybrid</span>
@@ -159,14 +138,14 @@ export default function Hero({ profile, cvUrl }: { profile: Profile; cvUrl: stri
 
           </div>
 
-          {/* Right Column: Apple Portrait Studio Frame */}
+          {/* Kolom Kanan: Bingkai Studio Foto Potret Khas Apple */}
           <div className="lg:col-span-5">
             <div className="relative max-w-sm mx-auto">
               
-              {/* Main Studio Frame */}
+              {/* Bingkai Studio Utama */}
               <div className="relative rounded-[32px] overflow-hidden bg-white dark:bg-apple-card-dark border border-black/[0.08] dark:border-white/[0.1] shadow-[0_20px_50px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] p-3 transition-transform duration-500 hover:shadow-[0_25px_60px_rgba(0,0,0,0.12)]">
                 
-                {/* 3:4 Portrait container tailored for Profil.jpeg */}
+                {/* Wadah potret rasio 3:4 yang dioptimasi untuk foto profil */}
                 <div className="relative aspect-[3/4] w-full rounded-[24px] overflow-hidden bg-apple-canvas dark:bg-black">
                   <Image
                     src={profile.foto_url}
@@ -177,7 +156,7 @@ export default function Hero({ profile, cvUrl }: { profile: Profile; cvUrl: stri
                     priority
                   />
                   
-                  {/* Subtle glass vignette at bottom */}
+                  {/* Vignette gradien kaca halus di bagian bawah */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-5">
                     <div className="text-white space-y-1">
                       <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[11px] font-medium text-white">
@@ -196,7 +175,7 @@ export default function Hero({ profile, cvUrl }: { profile: Profile; cvUrl: stri
 
               </div>
 
-              {/* Floating Pill Badge */}
+              {/* Lencana Mengambang ANI-Augmented Engineer */}
               <div className="hidden sm:flex absolute -bottom-3 -left-3 items-center gap-2 px-4 py-2 rounded-2xl bg-white/95 dark:bg-apple-card-dark-secondary/95 backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.1] shadow-[0_10px_25px_rgba(0,0,0,0.08)] text-xs font-medium text-apple-text dark:text-apple-text-dark">
                 <span className="text-sm">⚡</span>
                 <span>ANI-Augmented Web &amp; Mobile Engineer</span>
